@@ -1,0 +1,20 @@
+#comment-container .comment .comment-img img{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+
+
+#comment-container .comment .comment-item{
+    padding: 40px 30px 50px 30px;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 20px 0 rgb(0 0 0 / 10%);
+    border-radius: 10px;
+    transition: 500ms linear; 
+}
+
+
+#comment-container .comment-item .comment-img{ 
+    margin: 20px 0;
+}
+

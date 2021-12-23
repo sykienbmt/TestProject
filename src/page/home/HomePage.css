@@ -1,0 +1,87 @@
+#home-container{
+    width: 100%;
+    margin-top: 35px;
+    margin-bottom: 50px;
+}
+
+#home-container .slider-container{
+    width: 1200px;
+    margin: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 10px;
+    display: block;
+    margin: auto;
+}
+
+#home-container .offer-container{
+    width: 100%;
+    margin: auto;
+    margin-top: 10px;
+    height: 550px;
+    color: white;
+    background-image: linear-gradient(to right,#747abe, #4B4F7F  );
+}
+
+#home-container .offer-container img{
+    width: 430px;
+    height: 500px;
+}
+
+#home-container .offer-container img:hover{
+    transform: scale(1.2);
+}
+
+#home-container .offer{
+    width: 1200px;
+    margin: auto;
+    padding: 30px;
+    display: flex;
+}
+
+#home-container .hot-product-detail{
+    margin-top: 90px;
+    color: white;
+}
+
+#home-container .hot-product-detail p,h2{
+    color: white;
+}
+
+#home-container .desc-hot-product{
+    margin-bottom: 20px;
+}
+
+#home-container .desc-product-title{
+    margin-bottom: 20px;
+    font-size: 30px;
+}
+
+#home-container .btn-detailt-hot{
+    margin-top: 30px;
+    width: 150px;
+    height: 50px;
+    font-size: 16px;
+}
+
+
+#comment-container{
+    height: 500px;
+    width: 100%;
+    padding-top: 100px;
+}
+
+#comment-container .comment{
+    width: 1200px;
+    margin: auto;
+    padding: 0 30px;
+}
+
+#comment-container .comment .comment-row{
+    display: grid;
+    grid-gap:60px;
+    grid-template-columns: 1fr 1fr 1fr;
+    text-align: center;
+}
+
+
