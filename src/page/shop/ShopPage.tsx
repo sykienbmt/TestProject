@@ -8,8 +8,7 @@ import PaginationItem from './Pagination'
 import ShopItem from './ShopItem'
 
 interface Props{
-    // listProduct:Product[]
-    // onClickAddToCart:(id:String)=>void
+    setMessage:(mess:string)=>void
 }
 
 interface State{
@@ -74,7 +73,7 @@ export default function ProductsShow(props:Props) {
         }
         setState({...state,carts:list,countItemCart:list.length})
         setCartsToLocal(list)
-
+        props.setMessage("Add to cart Successfully")
     }
 
     const sortArray =(e:any)=>{

@@ -7,6 +7,9 @@ import { v4 as uuid } from 'uuid';
 import { productController } from '../../controller/ProductController'
 
 
+interface Props{
+    setMessage:(mess:string)=>void
+}
 export interface State {
     products: Product[]
     product: Product
@@ -14,7 +17,7 @@ export interface State {
     showPopup:Boolean
   }
 
-export default function Products() {
+export default function Products(props:Props) {
 
     const [state, setState] = useState<State>({
         products: [],
@@ -39,6 +42,7 @@ export default function Products() {
         productController.delete(idProduct).then(res=>{
           setState({...state,products:res})
         })
+        props.setMessage("Delete Successfully")
       };
     
       //add-edit product
@@ -49,10 +53,12 @@ export default function Products() {
             productController.add(product).then(res=>{
               setState({...state,products:res})
             })
+            props.setMessage("Add Successfully")
         }else{
             productController.update(product).then(res=>{
               setState({...state,products:res})
             })
+            props.setMessage("Update Successfully")
         }
     
         setState({...state,products:listProduct})
@@ -71,11 +77,6 @@ export default function Products() {
         setState({...state,isEdit:false,showPopup: showPopup,product:{id:"",name:"",price:0,image:""}})
       }
     
-      const setListProductToLocal=(listProduct:Product[])=>{
-        localStorage.setItem('listProduct',JSON.stringify(listProduct))
-      }
-
-
     
     return (
         <>

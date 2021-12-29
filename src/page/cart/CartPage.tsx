@@ -5,7 +5,9 @@ import './CartPage.css'
 import CheckoutForm from './CheckoutForm'
 import ItemCartRender from './ItemCartRender'
 
-
+interface Props{
+    setMessage:(mess:string)=>void
+}
 export interface State{
     itemCarts:ItemCart[],
     cartCount:number,
@@ -14,7 +16,7 @@ export interface State{
     isShowCheckOut:Boolean
 }
 
-export default function CartPage() {
+export default function CartPage(props:Props) {
     const [state,setState]=useState<State>({
         itemCarts:getListFromLocal(),
         cartCount:getListFromLocal().length,
@@ -52,6 +54,7 @@ export default function CartPage() {
         itemCartsFake=itemCartsFake.filter(item=>item.id!==id)
         setState({...state,itemCarts:itemCartsFake})
         setCartsToLocal(state.itemCarts)
+        props.setMessage("Delete Successfully")
     }
     
     //doi giao dien thong tin thanh toan
@@ -117,7 +120,7 @@ export default function CartPage() {
                     </div> 
                 : ""}
 
-                {state.isShowCheckOut===true&&state.cartCount>0 ? <CheckoutForm itemCarts={state.itemCarts}  totalMoney={state.totalMoney} onclickShowCarts={onclickShowCarts} onClickSetCartCount={onClickSetCartCount}/>:
+                {state.isShowCheckOut===true&&state.cartCount>0 ? <CheckoutForm itemCarts={state.itemCarts}  totalMoney={state.totalMoney} onclickShowCarts={onclickShowCarts} onClickSetCartCount={onClickSetCartCount} setMessage={props.setMessage}/>:
                     <div className="cart-page show">
                         <div className="show-list-container">
                             {showCart()}

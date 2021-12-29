@@ -11,6 +11,7 @@ interface Props{
     totalMoney:number,
     onclickShowCarts:()=>void
     onClickSetCartCount:()=>void
+    setMessage:(mess:string)=>void
 }
 
 interface State{
@@ -25,6 +26,7 @@ export default function CheckoutForm(props:Props) {
         orderController.addOrder(state.orderTest)
         localStorage.removeItem('carts')
         props.onClickSetCartCount()
+        props.setMessage("Order Complete")
     }
 
     return (
