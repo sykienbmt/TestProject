@@ -6,20 +6,20 @@ export default function Footer() {
         <div id="footer-container"> 
             <div className="footer-content">
             <div className="about-us">
-                <h3 className="about-us title">Về chúng tôi</h3>
+                <h3 className="about-us title">About Us</h3>
                 <p className="about-us desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam odio repudiandae suscipit iusto ad nostrum similique recusandae vitae magni? Tempora.</p>
             </div>
             <div className="address">
-                <h3 className="address-title">Chi nhánh chúng tôi</h3>
+                <h3 className="address-title">Location</h3>
                 <ul className="address-title">
                     <li className="address-info">
-                        <p>Địa chỉ 1</p>
+                        <p>Location 1</p>
                     </li>
                     <li className="address-info">
-                        <p>Địa chỉ 2</p>
+                        <p>Location 2</p>
                     </li>
                     <li className="address-info">
-                        <p>Địa chỉ 3</p>
+                        <p>Location3</p>
                     </li>
                 </ul>
             </div>

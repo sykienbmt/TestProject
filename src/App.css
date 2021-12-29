@@ -13,6 +13,7 @@
   background-color: #393D72;
   color: white;
   font-weight: 700;
+  cursor: pointer;
 }
 
 .btn:hover{

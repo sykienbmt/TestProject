@@ -1,26 +1,32 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Header.css'
 import { Link } from 'react-router-dom'
 
+interface State{
+    countItemCart:number
+}
+
 export default function Header() {
+
     return (
         <div id="header-container">
             <div id='header-bar'>
                 <nav className="menu">
                     <ul className="menuLv1">
                         <li className="itemLv1">
-                            <Link to="home" className="titleLv1"> <li className="itemLv1">Home</li></Link>
+                            <Link to="home" className="titleLv1"> Home</Link>
                         </li>
                         <li className="itemLv1">
-                            <Link to="products" className="titleLv1">Products</Link>
+                            <Link to="shop" className="titleLv1">Shop</Link>
                             <ul className="menuLv2">
                                 <li className="itemLv2"><Link to="products" className="titleLv2">Iphone</Link></li>
                                 <li className="itemLv2"><Link to="products" className="titleLv2">SamSung</Link></li>
                                 <li className="itemLv2"><Link to="products" className="titleLv2">XiaoMi</Link></li>
+                                <i className="fas fa-chevron-up"></i>
                             </ul>
                         </li>
                         <li className="itemLv1">
-                            <Link to="cart" className="titleLv1">Cart</Link>
+                            <Link to="home" className="titleLv1">Helps</Link>
                         </li>
                         <li className="itemLv1">
                             <Link to="home" className="titleLv1">Contact</Link>
@@ -37,8 +43,21 @@ export default function Header() {
                         <input type="text" className="search-key" />
                         <i className="fas fa-search"></i>
                     </div>
-                    <a href="" className="menu-login">Login</a>
-                    <a href="" className="menu-register">Register</a>
+                    <Link to="admin" className="menu-login">Admin</Link>
+                    <Link to="cart" className="menu-register">
+                        <i className="fas fa-shopping-bag"></i>
+                        <div className="bgr-count">
+                            <p className="count-item">
+                                {/* {props.countItemCart} */}
+                                </p>
+                        </div>
+                        <Link to="order">
+                            <div className="show-customer-order">
+                                Your Order
+                                <i className="fas fa-chevron-up"></i>
+                            </div>
+                        </Link>
+                    </Link>
                 </nav>
             </div>
         </div>

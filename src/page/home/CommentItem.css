@@ -10,7 +10,10 @@
     border: 1px solid #ddd;
     box-shadow: 0 0 20px 0 rgb(0 0 0 / 10%);
     border-radius: 10px;
-    transition: 500ms linear; 
+}
+
+#comment-container .comment .comment-item:hover .comment-item{
+    transition: translate(20px,20px);
 }
 
 

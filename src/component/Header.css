@@ -3,7 +3,7 @@
     width: 100%;
     height: 100px;
     background-color: white;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 #header-bar{
@@ -53,16 +53,32 @@
 
 #header-container .itemLv1:hover .menuLv2{
     display: block;
+    transition: 200ms;
 }
+
+
 
 #header-container .menuLv2{
     display: none;
     position: absolute;
     background-color: #E22B85;
-    min-width: 120px;
+    border: 2px solid white;
+    box-shadow: 1px 1px 5px rgb(182, 178, 178);
+    min-width: 130px;
     border-radius:10px;
-    top:60px;
+    top:70px;
+    left:-5px;
+    transition: 200ms;
 }
+
+#header-container .menuLv2 .fa-chevron-up{
+    position: absolute;
+    top:-13px;
+    right: 45%;
+    color: #cf1673;
+}
+/*css menu2*/
+
 
 #header-container .itemLv2{
     line-height: 40px;
@@ -102,11 +118,11 @@
     position: relative;
 }
 
-#header-container .search-bar .fa-search{
+#header-container .search-bar .search-box .fa-search{
     position: absolute;
     font-size: 14px;
     right:10px;
-    top:8px;
+    top:10px;
 }
 
 #header-container .search-bar a{
@@ -119,4 +135,53 @@
     margin-left: 20px;
     color: #cf1673;
     font-weight: 700;
+}
+
+#header-container .menu-register {
+    position: relative;
+}
+
+#header-container .menu-register .fa-shopping-bag{
+    font-size: 25px;
+}
+
+#header-container .menu-register .bgr-count{
+    background-color: #cf1673;
+    text-align: center;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top:-5px;
+    right:5px;
+    border-radius: 5px;
+}
+#header-container .menu-register .bgr-count .count-item{
+    color: white;
+    font-size: 12px;
+    line-height: 20px;
+}
+
+#header-container .menu-register:hover .show-customer-order{
+    display: block;
+}
+
+#header-container .menu-register .show-customer-order{
+    background-color: #cf1673;
+    border: 2px solid white;
+    box-shadow: 1px 1px 10px rgb(179, 177, 177);
+    padding: 5px;
+    color: white;
+    width: 120px;
+    text-align: center;
+    position: absolute;
+    top:32px ;
+    right:15px;
+    display: none;
+}
+
+#header-container .menu-register .show-customer-order .fa-chevron-up{
+    position: absolute;
+    top:-10px;
+    color: #E22B85;
+    right: 5px;
 }

@@ -1,0 +1,114 @@
+.form-checkout-container {
+    width: 1000px ;
+    margin: auto;
+}
+
+
+#cart-page-container .checkout-info-container{
+    border: 1px solid #393D72;
+    padding: 20px 30px 30px 30px;
+    border-radius: 10px;
+    margin-top: 15px;
+    box-shadow: .5px 1px 10px #393D72;
+}
+#cart-page-container .checkout-info-container .checkout-form{
+    display: grid;
+    grid-gap: 25px;
+    grid-template-columns: 1fr 1fr;
+}
+
+#cart-page-container .checkout-info-container label,
+#cart-page-container .checkout-info-container input{
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+}
+
+#cart-page-container .checkout-info-container input{
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: 1px solid #393D72;
+    border-radius: 5px;
+    /* box-shadow: .5px 1px 10px #393D72; */
+}
+
+#cart-page-container .checkout-info-container input:focus{
+    border: 1px solid #CF1673;
+    box-shadow: 1px 1px 5px #CF1673;
+    outline: none;
+}
+
+#cart-page-container .checkout-info-container input:hover{
+    border: 1px solid #CF1673;
+}
+
+
+#cart-page-container .carts-info-container{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #393D72;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: .5px 1px 10px #393D72;
+}
+
+#cart-page-container .item-checkout-title{
+    margin-bottom: 10px;
+}
+
+#cart-page-container .group-button-checkout{
+    display: flex;
+    justify-content: space-between;
+}
+#cart-page-container .order-item-info{
+    display: grid;
+    grid-template-columns: 1fr 5fr 1fr 1fr;
+}
+
+#cart-page-container .group-button-checkout .btn-checkout-done {
+    width: 150px;
+}
+
+#cart-page-container .order-item-info{
+    padding: 5px;
+}
+
+#cart-page-container .order-item-info-last{
+    text-align: right;
+}
+
+#cart-page-container .order-item-info img{
+    width: 30px;
+    height: 30px;
+}
+
+#cart-page-container .total-money-carts{
+    text-align: right;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+#cart-page-container .order-payment{
+    border: 1px solid #393D72;
+    box-shadow: .5px 1px 10px #393D72;
+    border-radius: 10px;
+    padding: 25px;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+#cart-page-container .order-payment div{
+    margin-top: 10px;
+}
+
+
+#cart-page-container .order-payment label{
+    margin-left: 10px;
+}
+
+#cart-page-container .order-payment input{
+    margin-left: 30px;
+}
+#cart-page-container .order-payment h2{
+    margin-bottom: 15px;
+}
