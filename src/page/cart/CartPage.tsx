@@ -102,7 +102,7 @@ export default function CartPage() {
         <>
             
             <div id="cart-page-container">
-                {state.cartCount>0 ? 
+                {state.cartCount>0 ?
                     <div className="order-process-container">
                         <div className="order-process">
                             <div className="cart-page-show-info " onClick={()=>setState({...state,isShowCheckOut:false})}>
@@ -118,7 +118,7 @@ export default function CartPage() {
                 : ""}
 
                 {state.isShowCheckOut===true&&state.cartCount>0 ? <CheckoutForm itemCarts={state.itemCarts}  totalMoney={state.totalMoney} onclickShowCarts={onclickShowCarts} onClickSetCartCount={onClickSetCartCount}/>:
-                    <div className="cart-page">
+                    <div className="cart-page show">
                         <div className="show-list-container">
                             {showCart()}
                         </div>
