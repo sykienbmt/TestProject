@@ -30,7 +30,7 @@ export default function ProductsShow(props:Props) {
         totalPage:[],
         carts:getListFromLocal(),
         countItemCart:getListFromLocal().length,
-        pagination:{page:1,filter:"",perPage:5,search:""}
+        pagination:{page:1,filter:"",perPage:10,search:""}
     })
 
     useEffect(() => {
@@ -78,6 +78,7 @@ export default function ProductsShow(props:Props) {
 
     const sortArray =(e:any)=>{
         let pagi = state.pagination
+        pagi.page=1
         pagi.filter=e
         setState({...state,pagination:pagi})
         productController.query(state.pagination).then(res=>
@@ -86,7 +87,6 @@ export default function ProductsShow(props:Props) {
     }
 
     const setPage=(pagination:Pagination)=>{
-        
         productController.query(pagination).then(res=>
             setState({...state,listShow:res.products,totalPage:res.totalPage,pagination:pagination,currentPage:Number(pagination.page)}
         ))
