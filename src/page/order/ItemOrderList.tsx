@@ -17,7 +17,7 @@ export default function ItemOrderList(props:Props) {
     }
 
     const convertDay = ()=>{
-        var d = new Date(props.orderTest.time);
+        var d = new Date(Number(props.orderTest.time));
         var time =d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()+ " - ";
         let day:string = `${d.getDate()}/${(d.getMonth()+1)}/${d.getFullYear()}` 
         time =time + day

@@ -1,10 +1,11 @@
+import { randomUUID } from 'crypto'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getListFromLocal ,ItemCart, setCartsToLocal} from '../../model/ItemCart'
 import './CartPage.css'
 import CheckoutForm from './CheckoutForm'
 import ItemCartRender from './ItemCartRender'
-
+import { v4 as uuid } from 'uuid';
 interface Props{
     setMessage:(mess:string)=>void
 }
@@ -50,10 +51,17 @@ export default function CartPage(props:Props) {
     }
 
     const onClickDeleteItemCarts=(id:string)=>{
-        let itemCartsFake=state.itemCarts
+        let itemCartsFake=state.itemCarts.slice()
+        
         itemCartsFake=itemCartsFake.filter(item=>item.id!==id)
-        setState({...state,itemCarts:itemCartsFake})
-        setCartsToLocal(state.itemCarts)
+        if(itemCartsFake.length===0){
+            setCartsToLocal(itemCartsFake)
+            setState({...state,cartCount:0})
+        }else{
+            setState({...state,itemCarts:itemCartsFake})
+            setCartsToLocal(itemCartsFake)
+        }
+        
         props.setMessage("Delete Successfully")
     }
     
@@ -79,7 +87,11 @@ export default function CartPage(props:Props) {
                                     <th><p>Subtotal</p></th>
                                 </tr>
                                 
-                                {state.itemCarts.map(item=><ItemCartRender key={+item.id} itemCart={item} onChangeQuantity={onChangeQuantity} onClickDeleteItemCarts={onClickDeleteItemCarts}/>)}
+                                {state.itemCarts.map(item=><ItemCartRender key={uuid()}
+                                    itemCart={item} 
+                                    onChangeQuantity={onChangeQuantity} 
+                                    onClickDeleteItemCarts={onClickDeleteItemCarts}
+                                />)}
                                 
                                 <tr className="table-row">
                                     <td></td>
@@ -121,18 +133,18 @@ export default function CartPage(props:Props) {
                 : ""}
 
                 {state.isShowCheckOut===true&&state.cartCount>0 ? 
-                <CheckoutForm 
-                    itemCarts={state.itemCarts}  
-                    totalMoney={state.totalMoney} 
-                    onclickShowCarts={onclickShowCarts} 
-                    onClickSetCartCount={onClickSetCartCount} 
-                    setMessage={props.setMessage}
-                />:
-                    <div className="cart-page show">
-                        <div className="show-list-container">
-                            {showCart()}
+                    <CheckoutForm 
+                        itemCarts={state.itemCarts}  
+                        totalMoney={state.totalMoney} 
+                        onclickShowCarts={onclickShowCarts} 
+                        onClickSetCartCount={onClickSetCartCount} 
+                        setMessage={props.setMessage}
+                    />:
+                        <div className="cart-page show">
+                            <div className="show-list-container">
+                                {showCart()}
+                            </div>
                         </div>
-                    </div>
                 }
 
             </div>

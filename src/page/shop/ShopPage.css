@@ -7,6 +7,7 @@
 #shopping-container .shop-show{
     width: 1200px;
     margin: auto;
+    min-height: 741px;
 }
 
 #shopping-container input{
@@ -36,7 +37,7 @@
     margin-top: 50px;
     display: grid;
     grid-gap: 20px;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(5, 1fr);
 }
 
 #shopping-container .product-item{

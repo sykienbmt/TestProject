@@ -18,7 +18,7 @@ interface State{
     orderTest: OrderTest ;
 }
 export default function CheckoutForm(props:Props) {
-    const [state,setState]= useState<State>({orderTest:{buyerId:"",orderId:"",name:"",address:"",email:"",phone:"",time:Date.now(),listOrder:props.itemCarts}})
+    const [state,setState]= useState<State>({orderTest:{buyerId:"1234",orderId:uuid(),name:"",address:"",email:"",phone:"",time:Date.now(),listOrder:props.itemCarts}})
 
     const onClickCompleteOrder = ()=>{
         setState({...state,orderTest:{...state.orderTest,buyerId:"Starr",orderId:uuid(),time:Date.now()}})

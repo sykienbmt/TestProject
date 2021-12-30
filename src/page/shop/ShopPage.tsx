@@ -32,7 +32,7 @@ export default function ProductsShow(props:Props) {
         countItemCart:getListFromLocal().length,
         pagination:{page:1,filter:"",perPage:10,search:""}
     })
-    
+
     useEffect(() => {
         productController.query(state.pagination).then(res=>
             setState({...state,listShow:res.products,totalPage:res.totalPage}
@@ -43,7 +43,7 @@ export default function ProductsShow(props:Props) {
     const onCLickSearch=()=>{
         let pagi = state.pagination
         pagi.search=state.inputSearch
-        pagi.perPage=5
+        pagi.perPage=10
         setState({...state,pagination:pagi})
 
         productController.query(state.pagination).then(res=>
