@@ -14,7 +14,7 @@ class ProductController{
     }
 
     async add(product:Product):Promise<Product[]>{
-        return axios.put('http://localhost:3333/products/add',product) .then(res=>{
+        return axios.put('http://localhost:3333/products/add',product).then(res=>{
             return res.data;
         })
     }
@@ -25,8 +25,8 @@ class ProductController{
         })
     }
 
-    async delete(productId:String):Promise<Product[]>{
-        return axios.get(`http://localhost:3333/products/delete/${productId}`) .then(res=>{
+    async delete(id:String):Promise<Product[]>{
+        return axios.get(`http://localhost:3333/products/delete/${id}`) .then(res=>{
             return res.data;
         })
     }
@@ -38,12 +38,11 @@ class ProductController{
     }
 
     async query(info:Pagination){
-        
-        return axios.put('http://localhost:3333/test', info).then(res=>{
+        return axios.put('http://localhost:3333/pagi', info).then(res=>{
             console.log(info);
-            let products:Product[]=res.data.products
-            let totalPage:number[]=Array.from({length: res.data.totalPage}, (_, i) => i + 1)
-            
+            let products:Product[]=res.data.list
+            let countAll = Math.ceil(res.data.count/ info.perPage)
+            let totalPage:number[]=Array.from({length: countAll}, (_, i) => i + 1)
             return {products,totalPage}
         })
     }

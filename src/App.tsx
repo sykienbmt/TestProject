@@ -40,9 +40,8 @@ function App() {
               <Route path="admin" element={<Products setMessage={setMessage}/>} />
               <Route path="cart" element={<CartPage setMessage={setMessage}/>}/>
               <Route path="product/:id" element={<ProductDetail/>}  />
-              <Route path="order" element={<OrderList/>}  />
+              <Route path="order" element={<OrderList/>}/>
             </Routes>
-          
       </div>
     </Router>
   );

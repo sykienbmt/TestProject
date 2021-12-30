@@ -16,9 +16,9 @@ export function ProductItem(props:Props) {
             <div className="product-image" onClick={()=>props.onClickShowInfo(props.product)}>
                 <img src={props.product.image} alt="" className=""/>
             </div>
-            <h3 className="product-name">Name: {props.product.name}</h3>
+            <h3 className="product-name">{props.product.name}</h3>
             <div className="price">
-                <p className="product-price">Price: {props.product.price}$</p>
+                <p className="product-price">{props.product.price}$</p>
             </div>
             <button className="product-buy btn" onClick={()=>props.onDelete(props.product.id)} >Remove</button>
         </div>

@@ -4,7 +4,7 @@ import { productController } from '../../controller/ProductController'
 import {ItemCart, getListFromLocal, setCartsToLocal } from '../../model/ItemCart'
 import { Pagination } from '../../model/Pagination'
 import { Product } from '../../model/Product'
-import PaginationItem from './Pagination'
+import PaginationItem from '../shop/Pagination'
 import ShopItem from './ShopItem'
 
 interface Props{
@@ -32,7 +32,7 @@ export default function ProductsShow(props:Props) {
         countItemCart:getListFromLocal().length,
         pagination:{page:1,filter:"",perPage:10,search:""}
     })
-
+    
     useEffect(() => {
         productController.query(state.pagination).then(res=>
             setState({...state,listShow:res.products,totalPage:res.totalPage}
@@ -41,10 +41,9 @@ export default function ProductsShow(props:Props) {
     
 
     const onCLickSearch=()=>{
-        // let pagination:Pagination = {search:state.inputSearch}
         let pagi = state.pagination
         pagi.search=state.inputSearch
-        pagi.perPage=2
+        pagi.perPage=5
         setState({...state,pagination:pagi})
 
         productController.query(state.pagination).then(res=>
@@ -138,7 +137,6 @@ export default function ProductsShow(props:Props) {
                 </div>
                 <div className="shop-list-container">
                     {state.listShow.map((item)=><ShopItem key={item.id}  product={item} 
-                    // onClickAddToCart={props.onClickAddToCart}
                     onClickAddToCart={()=>onClickAddToCart(item.id)}
                     />)}
                 </div>

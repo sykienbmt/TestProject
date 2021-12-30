@@ -129,7 +129,7 @@
 }
 
 /* #shopping-container  */
-#shopping-container .shop-pagination-container{
+ .shop-pagination-container{
     width: 1200px;
     margin: auto;
     text-align: center;
@@ -137,7 +137,7 @@
     align-items: center;
 }
 
-#shopping-container .shop-pagination-container span{
+ .shop-pagination-container span{
     display: inline-block;
     border: 1px solid #393D72;
     margin-left: 10px;
@@ -148,12 +148,12 @@
     cursor: pointer;
 }
 
-#shopping-container .shop-pagination-container span:hover{
+.shop-pagination-container span:hover{
     border: 1px solid #E22B85;
 }
 
 
-#shopping-container .shop-pagination-container .pagination-class{
+ .shop-pagination-container .pagination-class{
     border: 1px solid #E22B85;
     color: #E22B85;
     box-shadow: 1px 1px 1px #E22B85;

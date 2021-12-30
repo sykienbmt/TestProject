@@ -71,7 +71,7 @@ export default function CartPage(props:Props) {
     const showCart=()=>{
         if(state.cartCount>0){
             return  <div>
-                        <table className="show-list">
+                        <table className="show-list fade">
                             <tbody>
                                 <tr className="table-title">
                                     <th><p>Product</p></th>
@@ -106,7 +106,7 @@ export default function CartPage(props:Props) {
             
             <div id="cart-page-container">
                 {state.cartCount>0 ?
-                    <div className="order-process-container">
+                    <div className="order-process-container fade">
                         <div className="order-process">
                             <div className="cart-page-show-info " onClick={()=>setState({...state,isShowCheckOut:false})}>
                                 <p className={state.isShowCheckOut===true? 'css-page-num' : 'css-page-num-2' } >1</p>
@@ -120,7 +120,14 @@ export default function CartPage(props:Props) {
                     </div> 
                 : ""}
 
-                {state.isShowCheckOut===true&&state.cartCount>0 ? <CheckoutForm itemCarts={state.itemCarts}  totalMoney={state.totalMoney} onclickShowCarts={onclickShowCarts} onClickSetCartCount={onClickSetCartCount} setMessage={props.setMessage}/>:
+                {state.isShowCheckOut===true&&state.cartCount>0 ? 
+                <CheckoutForm 
+                    itemCarts={state.itemCarts}  
+                    totalMoney={state.totalMoney} 
+                    onclickShowCarts={onclickShowCarts} 
+                    onClickSetCartCount={onClickSetCartCount} 
+                    setMessage={props.setMessage}
+                />:
                     <div className="cart-page show">
                         <div className="show-list-container">
                             {showCart()}

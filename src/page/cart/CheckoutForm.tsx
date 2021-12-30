@@ -30,7 +30,7 @@ export default function CheckoutForm(props:Props) {
     }
 
     return (
-        <div className="form-checkout-container">
+        <div className="form-checkout-container fade">
             <div className="checkout-info-container">
                 <h2 className="checkout-info-title">Your info:</h2>
                 <form action="" className="checkout-form">
