@@ -1,5 +1,6 @@
 import axios from "axios"
 import { OrderTest } from "../model/OrderTest";
+import { Order_product } from "../model/Order_product";
 
 
 
@@ -11,10 +12,12 @@ class OrderController{
     
     async get(){
         return axios.get('http://localhost:3333/order/get').then(res=>{
-            console.log(res.data);
-            
             return res.data as OrderTest[]
         })
+    }
+
+    async addToCart(cartInfo:Order_product){
+        return axios.post('http://localhost:3333/cart/add',cartInfo)
     }
 }
 

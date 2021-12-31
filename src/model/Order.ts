@@ -1,13 +1,7 @@
-import { Buyer } from "./Buyer";
-
 export interface Order{
-    orderId:string;
-    buyerID:Buyer;
-    product:OrderProduct[];
+    id_order:string,
+    id_user:string,
+    total:number,
+    is_temporary:boolean
 }
 
-interface OrderProduct{
-    productId:string;
-    orderId:string;
-    quantity:number;
-}

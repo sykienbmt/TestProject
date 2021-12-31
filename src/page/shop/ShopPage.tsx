@@ -6,11 +6,12 @@ import { Pagination } from '../../model/Pagination'
 import { Product } from '../../model/Product'
 import PaginationItem from '../shop/Pagination'
 import ShopItem from './ShopItem'
+import { Order } from '../../model/Order'
 
 interface Props{
-    setMessage:(mess:string)=>void
+    setMessage:(mess:string)=>void,
+    order:Order
 }
-
 interface State{
     listShow:Product[],
     inputSearch:string,
@@ -18,7 +19,8 @@ interface State{
     totalPage:number[],
     carts:ItemCart[],
     countItemCart:number,
-    pagination:Pagination
+    pagination:Pagination,
+
 }
 
 export default function ProductsShow(props:Props) {
@@ -117,6 +119,14 @@ export default function ProductsShow(props:Props) {
         ))
     }
 
+    const onChangeProductPerPage = (e:any)=>{
+        let pagi = state.pagination
+        pagi.perPage=e
+        productController.query(state.pagination).then(res=>
+            setState({...state,listShow:res.products,totalPage:res.totalPage,pagination:pagi,currentPage:1}
+        ))
+    }
+    
 
     return (
         <div id="shopping-container">
@@ -126,7 +136,15 @@ export default function ProductsShow(props:Props) {
                         <input type="text" className="search-product" placeholder='Search' 
                                             onChange={e=> setState({...state,inputSearch:e.target.value})}/>
                         <button className="btn" onClick={onCLickSearch}>Search</button>
+                        <label htmlFor="">Number perPage</label>
+                        <select id="show-product-perPage" onChange={(e) => onChangeProductPerPage(e.target.value)}>
+                            <option value={10} className="txtSort">10 perPage</option>
+                            <option value={3}>3 Products</option>
+                            <option value={5}>5 Products</option>
+                        </select>
+                        
                     </div>
+                    
                     <select id="dropdown" onChange={(e) => sortArray(e.target.value)}>
                         <option value="N/A" className="txtSort">Sort</option>
                         <option value="AZ">Name: A-Z</option>

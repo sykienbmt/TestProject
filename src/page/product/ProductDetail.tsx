@@ -11,7 +11,7 @@ interface State{
 
 export default function ProductDetail() {
     const [state, setState] = useState<State>({
-        product:{id:"",name:"",price:0,image:""}
+        product:{id:window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1),name:"",price:0,image:""}
     });
 
     useEffect(() => {
@@ -25,7 +25,7 @@ export default function ProductDetail() {
         <div id="product-detail-container">
             <div className="product-detail">
                 <div className="product-detail-img">
-                    <img src="https://cdn.tgdd.vn/Products/Images/42/213033/iphone-12-pro-max-xanh-duong-new-600x600-600x600.jpg" alt="" />
+                    <img src={state.product.image}  alt="" />
                 </div>
                 <div className="product-detail-content">
                     <h4 className="product-detail-title">Product/ IphoneXXX </h4>
