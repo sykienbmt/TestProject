@@ -21,23 +21,32 @@ interface State{
   message:string,
   order:Order
 }
-
-
-
 function App() {
-  const [state,setState] = useState<State>({isShowMessage:false,message:"",order:{id_order:"",id_user:"9999",total:0,is_temporary:false}})
+  const [state,setState] = useState<State>({
+    isShowMessage:false,
+    message:"",
+    order:{id_order:"",id_user:"9999",total:0,is_temporary:false}
+  })
+
   const setMessage =(mess:string)=>{
     setState({...state,isShowMessage:true,message:mess})
     setTimeout(()=>{setState({...state,isShowMessage:false})},2000)
   }
-  console.log(state.order.id_user);
   
-  useEffect(()=>{
-    userController.getUser(state.order.id_user).then(res=>{
-      setState({...state,order:res})
-    })
-  },[])
+  // useEffect(()=>{
+  //   console.log(123);
+    
+  //   userController.getUser(state.order.id_user).then(res=>{
+  //     setState({...state,order:res})
+  //   })
+  // },[])
+  
 
+  // const setTotalMoney=(total:number)=>{
+  //   let order1={...state.order,total:total}
+  //   setState({...state,order:order1})
+  // }
+  
   return (
     <Router>
       <div>
@@ -46,9 +55,9 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePage/>}/>
               <Route path="home" element={<HomePage/>}/>
-              <Route path="shop" element={<ShopPage setMessage={setMessage} order={state.order}/>}/>
               <Route path="admin" element={<Products setMessage={setMessage}/>} />
-              <Route path="cart" element={<CartPage setMessage={setMessage}/>}/>
+              <Route path="cart" element={<CartPage setMessage={setMessage} order={state.order} />}/>
+              <Route path="shop" element={<ShopPage setMessage={setMessage} order={state.order} />}/>
               <Route path="product/:id" element={<ProductDetail/>}  />
               <Route path="order" element={<OrderList/>}/>
             </Routes>

@@ -6,8 +6,8 @@ import { Order_product } from "../model/Order_product";
 
 class OrderController{
 
-    async addOrder(info:OrderTest){
-        return axios.post('http://localhost:3333/order/add',info)
+    async addOrder(id_user:string,id_order:string){
+        return axios.post('http://localhost:3333/order/add',{id_user,id_order})
     }
     
     async get(){
@@ -16,9 +16,9 @@ class OrderController{
         })
     }
 
-    async addToCart(cartInfo:Order_product){
-        return axios.post('http://localhost:3333/cart/add',cartInfo)
-    }
+    // async addToCart(info:any){
+    //     return axios.post('http://localhost:3333/cart/add',info)
+    // }
 }
 
 

@@ -1,11 +1,9 @@
-import { Buyer } from "./Buyer";
-import { Product } from "./Product";
 
+import { Product } from "./Product";
 export interface ItemCart{
     id:string;
     price:number;
     name:string;
-    // image:Image[];
     image?:string;
     quantity:number
 }

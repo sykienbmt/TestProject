@@ -1,19 +1,19 @@
 import axios from "axios"
-import { Order } from "../model/Order";
+import { ItemCart } from "../model/ItemCart";
 import { Order_product } from "../model/Order_product";
 
 
 
 class CartController{
 
-    async getCart(info:string):Promise<Order>{
-        return axios.post('http://localhost:3333/Cart',info).then(res=>{
+    async getInfoCart(id_order:string):Promise<ItemCart[]>{
+        return axios.put('http://localhost:3333/cart',{id_order:id_order}).then(res=>{
             return res.data
         })
     }
     
-    async addToCart(item:Order_product):Promise<Order_product[]>{
-        return axios.put('http://localhost:3333/cart/add',item).then(res=>{
+    async addToCart(order_product:Order_product):Promise<number>{
+        return axios.put('http://localhost:3333/cart/add',order_product).then(res=>{
             return res.data;
         })
     }
@@ -24,8 +24,16 @@ class CartController{
         })
     }
 
-    async deleteFromCart(id:String){
-        return axios.get(`http://localhost:3333/cart/delete/${id}`) .then(res=>{
+    async getTotalPrice(id_order:string):Promise<number>{
+        return axios.put('http://localhost:3333/cart/total',{id_order}).then(res=>{
+            console.log(res.data);
+            
+            return res.data;
+        })
+    }
+
+    async deleteFromCart(info:Order_product){
+        return axios.put(`http://localhost:3333/cart/delete`,info) .then(res=>{
             return res.data;
         })
     }

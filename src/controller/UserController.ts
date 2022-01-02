@@ -1,5 +1,6 @@
 import axios from "axios"
 import { Order } from "../model/Order";
+import { User } from "../model/User";
 
 
 class UserController{
@@ -11,17 +12,11 @@ class UserController{
         })
     }
     
-    // async get(){
-    //     return axios.get('http://localhost:3333/order/get').then(res=>{
-    //         console.log(res.data);
-            
-    //         return res.data as OrderTest[]
-    //     })
-    // }
-
-    // async addToCart(cartInfo:Order_product){
-    //     return axios.post('http://localhost:3333/cart/add',cartInfo)
-    // }
+    async getUserInfo(id_user:string):Promise<User>{
+        return axios.put('http://localhost:3333/user/getInfo',{id_user}).then(res=>{
+            return res.data
+        })
+    }
 }
 
 

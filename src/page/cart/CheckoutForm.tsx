@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { getListFromLocal, ItemCart } from '../../model/ItemCart'
 import { OrderTest } from '../../model/OrderTest'
 import './Checkout.css'
 import OrderItemShow from './OrderItemShow'
 import {v4 as uuid} from 'uuid'
 import { orderController } from '../../controller/OrderController'
+import { Order } from '../../model/Order'
+import { User } from '../../model/User'
+import { userController } from '../../controller/UserController'
 
 interface Props{
     itemCarts: ItemCart[],
@@ -12,21 +15,34 @@ interface Props{
     onclickShowCarts:()=>void
     onClickSetCartCount:()=>void
     setMessage:(mess:string)=>void
+    order:Order
 }
 
 interface State{
-    orderTest: OrderTest ;
+    order:Order,
+    user:User
 }
 export default function CheckoutForm(props:Props) {
-    const [state,setState]= useState<State>({orderTest:{buyerId:"1234",orderId:uuid(),name:"",address:"",email:"",phone:"",time:Date.now(),listOrder:props.itemCarts}})
-
+    const [state,setState]= useState<State>({
+        order:props.order,
+        user:{id_user:props.order.id_user,name:"",address:"",phone:"",email:""}
+    })
+    
+    useEffect(() => {
+        userController.getUserInfo(state.order.id_user).then(res=>{
+            setState({...state,user:res})
+        })
+    }, [])
+    
     const onClickCompleteOrder = ()=>{
-        setState({...state,orderTest:{...state.orderTest,buyerId:"Starr",orderId:uuid(),time:Date.now()}})
-        console.log(state.orderTest);
-        orderController.addOrder(state.orderTest)
-        localStorage.removeItem('carts')
+        orderController.addOrder(props.order.id_user,props.order.id_order)
+
+        // setState({...state,orderTest:{...state.orderTest,buyerId:"Starr",orderId:uuid(),time:Date.now()}})
+        // console.log(state.orderTest);
+        // orderController.addOrder(state.orderTest)
+        // localStorage.removeItem('carts')
         props.onClickSetCartCount()
-        props.setMessage("Order Complete")
+        // props.setMessage("Order Complete")
     }
 
     return (
@@ -36,19 +52,19 @@ export default function CheckoutForm(props:Props) {
                 <form action="" className="checkout-form">
                     <div className="checkout-first-name">
                         <label htmlFor="">First name:</label>
-                        <input type="text" onChange={e=>setState({...state,orderTest:{...state.orderTest,name:e.target.value}})} className="checkout-input-name" />
+                        <input type="text"  className="checkout-input-name" onChange={e=>setState({...state,user:{...state.user,name:e.target.value}})} value={state.user.name}/>
                     </div>
                     <div className="checkout-first-name">
                         <label htmlFor="">Email:</label>
-                        <input type="text" onChange={e=>setState({...state,orderTest:{...state.orderTest,email:e.target.value}})} className="checkout-input-name" />
+                        <input type="text"  className="checkout-input-name" onChange={e=>setState({...state,user:{...state.user,email:e.target.value}})} value={state.user.email}/>
                     </div>
                     <div className="checkout-first-name">
                         <label htmlFor="">Your Address:</label>
-                        <input type="text" onChange={e=>setState({...state,orderTest:{...state.orderTest,address:e.target.value}})} className="checkout-input-name" />
+                        <input type="text"  className="checkout-input-name" onChange={e=>setState({...state,user:{...state.user,address:e.target.value}})} value={state.user.address}/>
                     </div>
                     <div className="checkout-first-name">
                         <label htmlFor="">Your phone:</label>
-                        <input type="text" onChange={e=>setState({...state,orderTest:{...state.orderTest,phone:e.target.value}})} className="checkout-input-name" />
+                        <input type="text"  className="checkout-input-name" onChange={e=>setState({...state,user:{...state.user,phone:e.target.value}})} value={state.user.phone}/>
                     </div>
                 </form>
 

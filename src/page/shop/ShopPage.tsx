@@ -7,10 +7,14 @@ import { Product } from '../../model/Product'
 import PaginationItem from '../shop/Pagination'
 import ShopItem from './ShopItem'
 import { Order } from '../../model/Order'
+import { cartController } from '../../controller/CartController'
+import { Order_product } from '../../model/Order_product'
+import { userController } from '../../controller/UserController'
 
 interface Props{
     setMessage:(mess:string)=>void,
-    order:Order
+    order:Order,
+    // setTotalMoney:(total:number)=>void
 }
 interface State{
     listShow:Product[],
@@ -20,7 +24,7 @@ interface State{
     carts:ItemCart[],
     countItemCart:number,
     pagination:Pagination,
-
+    order:Order
 }
 
 export default function ProductsShow(props:Props) {
@@ -32,13 +36,22 @@ export default function ProductsShow(props:Props) {
         totalPage:[],
         carts:getListFromLocal(),
         countItemCart:getListFromLocal().length,
-        pagination:{page:1,filter:"",perPage:10,search:""}
+        pagination:{page:1,filter:"",perPage:10,search:""},
+        order:{...props.order}
     })
-
+    console.log(props.order);
+    
     useEffect(() => {
-        productController.query(state.pagination).then(res=>
-            setState({...state,listShow:res.products,totalPage:res.totalPage}
-        ))
+        userController.getUser(state.order.id_user).then(res=>{
+            setState({...state,order:res})
+        }).then(()=>{
+            productController.query(state.pagination).then(res=>
+                setState({...state,listShow:res.products,totalPage:res.totalPage}
+            ))
+        } 
+        )
+
+        
     }, [])
     
 
@@ -53,27 +66,30 @@ export default function ProductsShow(props:Props) {
         ))
     }
     
-    const onClickAddToCart = (id:string) => {
+    const onClickAddToCart = (id:string,price:number) => {
+        const order_product:Order_product={id_order:props.order.id_order,id:id,quantity:1,price:price}
+        cartController.addToCart(order_product)
 
-        const findIndex=state.carts.find(item => item.id === id);
-        const list:ItemCart[] = state.carts
-        let indexList = state.listShow.findIndex(item=>item.id===id)
 
-        if (findIndex) {
-          let index =state.carts.findIndex(item => item.id === id)
-          state.carts[index].quantity=+list[index].quantity + 1
-          state.carts[index].id=id
-        } else {
-          const newItemCart:ItemCart={
-              id:id,quantity:1,
-              name:state.listShow[indexList].name,
-              price:state.listShow[indexList].price,
-              image:state.listShow[indexList].image
-            }
-          list.push(newItemCart)
-        }
-        setState({...state,carts:list,countItemCart:list.length})
-        setCartsToLocal(list)
+        // const findIndex=state.carts.find(item => item.id === id);
+        // const list:ItemCart[] = state.carts
+        // let indexList = state.listShow.findIndex(item=>item.id===id)
+
+        // if (findIndex) {
+        //   let index =state.carts.findIndex(item => item.id === id)
+        //   state.carts[index].quantity=+list[index].quantity + 1
+        //   state.carts[index].id=id
+        // } else {
+        //   const newItemCart:ItemCart={
+        //       id:id,quantity:1,
+        //       name:state.listShow[indexList].name,
+        //       price:state.listShow[indexList].price,
+        //       image:state.listShow[indexList].image
+        //     }
+        //   list.push(newItemCart)
+        // }
+        // setState({...state,carts:list,countItemCart:list.length})
+        // setCartsToLocal(list)
         props.setMessage("Add to cart Successfully")
     }
 
@@ -155,7 +171,7 @@ export default function ProductsShow(props:Props) {
                 </div>
                 <div className="shop-list-container">
                     {state.listShow.map((item)=><ShopItem key={item.id}  product={item} 
-                    onClickAddToCart={()=>onClickAddToCart(item.id)}
+                    onClickAddToCart={()=>onClickAddToCart(item.id,item.price)}
                     />)}
                 </div>
             </div>

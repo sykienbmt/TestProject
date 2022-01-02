@@ -6,61 +6,81 @@ import './CartPage.css'
 import CheckoutForm from './CheckoutForm'
 import ItemCartRender from './ItemCartRender'
 import { v4 as uuid } from 'uuid';
+import { Order } from '../../model/Order'
+import { cartController } from '../../controller/CartController'
+import { userController } from '../../controller/UserController'
+import { Order_product } from '../../model/Order_product'
+import { User } from '../../model/User'
 interface Props{
-    setMessage:(mess:string)=>void
+    setMessage:(mess:string)=>void,
+    order:Order,
 }
 export interface State{
     itemCarts:ItemCart[],
     cartCount:number,
     totalMoney:number,
     value:number,
-    isShowCheckOut:Boolean
+    isShowCheckOut:Boolean,
+    order:Order,
+    user:User
 }
+
 
 export default function CartPage(props:Props) {
     const [state,setState]=useState<State>({
-        itemCarts:getListFromLocal(),
-        cartCount:getListFromLocal().length,
+        itemCarts:[],
+        cartCount:0,
         totalMoney:0,
         value:0,
-        isShowCheckOut:false
+        isShowCheckOut:false,
+        order:props.order,
+        user:{id_user:props.order.id_user,name:"",address:"",phone:"",email:""}
     })
 
     useEffect(()=>{
-        let totalMoney=0
-        state.itemCarts.forEach(element => {
-            totalMoney+= (element.price*element.quantity)
-        });
-        setState({...state,totalMoney:totalMoney})
+        userController.getUser(state.order.id_user).then(res=>{
+            cartController.getInfoCart(res.id_order).then(res1=>{
+                cartController.getTotalPrice(res.id_order).then(total=>{
+                    setState({...state,totalMoney:total,itemCarts:res1,order:res,cartCount:res1.length})
+                })
+            })
+        })
+        
     },[])
 
 
-    //Thay doi so luong
-    const onChangeQuantity=(quantity:number,id:string)=>{
-
-        let index = state.itemCarts.findIndex(item=>item.id===id)
-        let itemCartsFake=state.itemCarts
-        itemCartsFake[index].quantity=quantity
-        let totalMoney=0
-        itemCartsFake.forEach(element => {
-            totalMoney+= (element.price*element.quantity)
-        });
-
-        setState({...state,itemCarts:itemCartsFake,totalMoney:totalMoney})
-        setCartsToLocal(state.itemCarts)
+    const onChangeQuantity=(id:string,quantityChange:number,price:number,quantityBefore:number)=>{
+        const change:Order_product={id_order:state.order.id_order,id:id,quantity:quantityChange,price:price}
+        console.log(quantityChange,quantityBefore);
+        cartController.updateQuantity(change).then(res=>{
+            cartController.getInfoCart(state.order.id_order).then(infoCart=>{
+                cartController.getTotalPrice(state.order.id_order).then(total=>{
+                    setState({...state,totalMoney:total,itemCarts:infoCart})
+                })
+            })
+        })
     }
 
-    const onClickDeleteItemCarts=(id:string)=>{
-        let itemCartsFake=state.itemCarts.slice()
+    const onClickDeleteItemCarts=(id:string,quantity:number,price:number)=>{
+        const deleteItem:Order_product={id_order:state.order.id_order,id:id,quantity:quantity,price:price}
+        cartController.deleteFromCart(deleteItem).then(()=>{
+            cartController.getInfoCart(state.order.id_order).then(infoCart=>{
+                cartController.getTotalPrice(state.order.id_order).then(res1=>{
+                    setState({...state,itemCarts:infoCart,totalMoney:res1})
+                })
+            })
+        })
         
-        itemCartsFake=itemCartsFake.filter(item=>item.id!==id)
-        if(itemCartsFake.length===0){
-            setCartsToLocal(itemCartsFake)
-            setState({...state,cartCount:0})
-        }else{
-            setState({...state,itemCarts:itemCartsFake})
-            setCartsToLocal(itemCartsFake)
-        }
+        // let itemCartsFake=state.itemCarts.slice()
+        
+        // itemCartsFake=itemCartsFake.filter(item=>item.id!==id)
+        // if(itemCartsFake.length===0){
+        //     setCartsToLocal(itemCartsFake)
+        //     setState({...state,cartCount:0})
+        // }else{
+        //     setState({...state,itemCarts:itemCartsFake})
+        //     setCartsToLocal(itemCartsFake)
+        // }
         
         props.setMessage("Delete Successfully")
     }
@@ -132,13 +152,14 @@ export default function CartPage(props:Props) {
                     </div> 
                 : ""}
 
-                {state.isShowCheckOut===true&&state.cartCount>0 ? 
-                    <CheckoutForm 
-                        itemCarts={state.itemCarts}  
-                        totalMoney={state.totalMoney} 
-                        onclickShowCarts={onclickShowCarts} 
-                        onClickSetCartCount={onClickSetCartCount} 
+                {state.isShowCheckOut===true&&state.cartCount>0 ?
+                    <CheckoutForm
+                        itemCarts={state.itemCarts}
+                        totalMoney={state.totalMoney}
+                        onclickShowCarts={onclickShowCarts}
+                        onClickSetCartCount={onClickSetCartCount}
                         setMessage={props.setMessage}
+                        order={state.order}
                     />:
                         <div className="cart-page show">
                             <div className="show-list-container">
