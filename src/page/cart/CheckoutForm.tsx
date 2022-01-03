@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getListFromLocal, ItemCart } from '../../model/ItemCart'
-import { OrderTest } from '../../model/OrderTest'
+import { ItemCart } from '../../model/ItemCart'
 import './Checkout.css'
 import OrderItemShow from './OrderItemShow'
 import {v4 as uuid} from 'uuid'

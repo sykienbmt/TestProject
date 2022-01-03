@@ -1,28 +1,37 @@
-import React, { useState } from 'react'
-import { OrderTest } from '../../model/OrderTest'
+import React, { useEffect, useState } from 'react'
+import { orderController } from '../../controller/OrderController';
+import { OrderWithDetailAddress } from '../../model/Order';
 import ItemChildOrder from './ItemChildOrder';
 
 
 interface Props{
-    orderTest:OrderTest
+    itemOrder:OrderWithDetailAddress
 }
+// interface State{
+
+// }
 export default function ItemOrderList(props:Props) {
+
 
     const sumToTal = ()=>{
         let  total=0
-        props.orderTest.listOrder.forEach(item => {
-            total+=item.price*item.quantity
-        });
+        props.itemOrder.orderProducts.map(item=>{
+            total+= item.price*item.quantity
+        })
         return total
     }
 
-    const convertDay = ()=>{
-        var d = new Date(Number(props.orderTest.time));
-        var time =d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()+ " - ";
-        let day:string = `${d.getDate()}/${(d.getMonth()+1)}/${d.getFullYear()}` 
-        time =time + day
-        return time
-    }
+    
+    // const convertDay = ()=>{
+    //     var d = new Date(Number(props.itemOrder));
+    //     var time =d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()+ " - ";
+    //     let day:string = `${d.getDate()}/${(d.getMonth()+1)}/${d.getFullYear()}` 
+    //     time =time + day
+    //     return time
+    // }
+
+
+
     return (
         <div className="order-history-item">
             <div className="order-history-item-info">
@@ -34,12 +43,12 @@ export default function ItemOrderList(props:Props) {
                 <h4>Pending</h4>
                 <div className="order-information">
                     <div className="order-info-time">
-                        <p>{convertDay()}</p>
+                        <p>{props.itemOrder.timeOrder}</p>
                     </div>
-                    <p className="order-info-address"><span>{props.orderTest.email+" | "+props.orderTest.phone +" | "+ props.orderTest.address}</span> </p>
+                    <p className="order-info-address"><span>{props.itemOrder.userInfo.email+" | "+props.itemOrder.userInfo.phone +" | "+ props.itemOrder.userInfo.address}</span> </p>
                 </div>
             </div>
-            {props.orderTest.listOrder.map(item=><ItemChildOrder key={item.id} itemCart={item}/>)}
+            {props.itemOrder.orderProducts.map(item=><ItemChildOrder key={item.id} itemChild={item}/>)}
 
 
             <div className="order-item-price">

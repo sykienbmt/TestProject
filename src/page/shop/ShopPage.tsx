@@ -1,14 +1,14 @@
 import './ShopPage.css'
 import React, { useEffect, useState } from 'react'
 import { productController } from '../../controller/ProductController'
-import {ItemCart, getListFromLocal, setCartsToLocal } from '../../model/ItemCart'
+import {getListFromLocal, ItemCart } from '../../model/ItemCart'
 import { Pagination } from '../../model/Pagination'
 import { Product } from '../../model/Product'
 import PaginationItem from '../shop/Pagination'
 import ShopItem from './ShopItem'
 import { Order } from '../../model/Order'
 import { cartController } from '../../controller/CartController'
-import { Order_product } from '../../model/Order_product'
+import { OrderProduct } from '../../model/OrderProduct'
 import { userController } from '../../controller/UserController'
 
 interface Props{
@@ -21,9 +21,9 @@ interface State{
     inputSearch:string,
     currentPage:number,
     totalPage:number[],
+    pagination:Pagination,
     carts:ItemCart[],
     countItemCart:number,
-    pagination:Pagination,
     order:Order
 }
 
@@ -42,32 +42,28 @@ export default function ProductsShow(props:Props) {
     console.log(props.order);
     
     useEffect(() => {
-        userController.getUser(state.order.id_user).then(res=>{
-            setState({...state,order:res})
-        }).then(()=>{
+        userController.getUser(state.order.id_user).then(order=>{
             productController.query(state.pagination).then(res=>
-                setState({...state,listShow:res.products,totalPage:res.totalPage}
+                setState({...state,listShow:res.products,totalPage:res.totalPage,order:order}
             ))
-        } 
-        )
-
-        
+        })
     }, [])
+    console.log(state.order);
     
 
     const onCLickSearch=()=>{
-        let pagi = state.pagination
-        pagi.search=state.inputSearch
-        pagi.perPage=10
-        setState({...state,pagination:pagi})
+        let pagination = state.pagination
+        pagination.search=state.inputSearch
+        pagination.perPage=10
+        setState({...state,pagination:pagination})
 
         productController.query(state.pagination).then(res=>
-            setState({...state,listShow:res.products,totalPage:res.totalPage,pagination:pagi,currentPage:1}
+            setState({...state,listShow:res.products,totalPage:res.totalPage,pagination:pagination,currentPage:1}
         ))
     }
     
     const onClickAddToCart = (id:string,price:number) => {
-        const order_product:Order_product={id_order:props.order.id_order,id:id,quantity:1,price:price}
+        const order_product:OrderProduct={id_order:state.order.id_order,id:id,quantity:1,price:price}
         cartController.addToCart(order_product)
 
 
@@ -94,12 +90,12 @@ export default function ProductsShow(props:Props) {
     }
 
     const sortArray =(e:any)=>{
-        let pagi = state.pagination
-        pagi.page=1
-        pagi.filter=e
-        setState({...state,pagination:pagi})
+        let pagination = state.pagination
+        pagination.page=1
+        pagination.filter=e
+        setState({...state,pagination:pagination})
         productController.query(state.pagination).then(res=>
-            setState({...state,listShow:res.products,totalPage:res.totalPage,pagination:pagi,currentPage:1}
+            setState({...state,listShow:res.products,totalPage:res.totalPage,pagination:pagination,currentPage:1}
         ))
     }
 
@@ -110,36 +106,36 @@ export default function ProductsShow(props:Props) {
     }
 
     const onClickNextPage=()=>{
-        let pagi = state.pagination
-        pagi.page= Number(state.pagination.page)+1
-        if(pagi.page>state.totalPage.length){
-            pagi.page=state.totalPage.length
+        let pagination = state.pagination
+        pagination.page= Number(state.pagination.page)+1
+        if(pagination.page>state.totalPage.length){
+            pagination.page=state.totalPage.length
         }
-        setState({...state,pagination:pagi})
+        setState({...state,pagination:pagination})
 
         productController.query(state.pagination).then(res=>
-            setState({...state,listShow:res.products,totalPage:res.totalPage,pagination:pagi,currentPage:Number(pagi.page)}
+            setState({...state,listShow:res.products,totalPage:res.totalPage,pagination:pagination,currentPage:Number(pagination.page)}
         ))
     }
 
     const onClickPrevPage=()=>{
-        let pagi = state.pagination
-        pagi.page= Number(state.pagination.page)-1
-        if(pagi.page<1){
-            pagi.page=1
+        let pagination = state.pagination
+        pagination.page= Number(state.pagination.page)-1
+        if(pagination.page<1){
+            pagination.page=1
         }
-        setState({...state,pagination:pagi})
+        setState({...state,pagination:pagination})
 
         productController.query(state.pagination).then(res=>
-            setState({...state,listShow:res.products,totalPage:res.totalPage,pagination:pagi,currentPage:Number(pagi.page)}
+            setState({...state,listShow:res.products,totalPage:res.totalPage,pagination:pagination,currentPage:Number(pagination.page)}
         ))
     }
 
     const onChangeProductPerPage = (e:any)=>{
-        let pagi = state.pagination
-        pagi.perPage=e
+        let pagination = state.pagination
+        pagination.perPage=e
         productController.query(state.pagination).then(res=>
-            setState({...state,listShow:res.products,totalPage:res.totalPage,pagination:pagi,currentPage:1}
+            setState({...state,listShow:res.products,totalPage:res.totalPage,pagination:pagination,currentPage:1}
         ))
     }
     

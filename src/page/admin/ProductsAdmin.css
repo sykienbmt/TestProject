@@ -3,6 +3,11 @@
     margin: auto;
     margin-top: 50px;
     margin-bottom: 50px;
+    
+}
+
+#product-container .list-product-container{
+    min-height: 645px;
 }
 
 #product-container .product-image img{

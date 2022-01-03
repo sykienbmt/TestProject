@@ -1,28 +1,30 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, FC, ReactNode, useEffect, useState } from "react";
+import { Order } from "../model/Order";
 
+export type UserState = {
+    order:Order,
+    changeOrder:(order:Order)=>void
+}
 
-// interface UserContextProviderProps{
-//     children: ReactNode
-// }
+const userDefault:UserState={
+    order: {id_order:"",id_user:"9999",total:0,is_temporary:true,timeOrder:"123"},
+    changeOrder:()=>{}
+}
 
-// const [user,setUser] = useState()
+export const userContext = createContext<UserState>(userDefault);
 
-// export const UserContext=createContext(user)
-
-
-// const UserContextProvider = ({children}:UserContextProviderProps)=>{
-    
-//     useEffect(()=>{
-//         console.log(state.order.total);
-        
-//         userController.getUser(state.order.id_user).then(res=>{
-//           setState({...state,order:res})
-//         })
-//       },[])
-
-//     return  <UserContext.Provider value ={UserDefault}>
-//                 {children}
-//             </UserContext.Provider>
-// }
-
-// export default UserContextProvider
+const UserProvider: FC = ({ children }) => {
+    const [order, setOrder] = useState<Order>(userDefault.order);
+  
+    const changeOrder=(order:Order)=>{
+        setOrder(order)
+    }
+  
+    return (
+        <userContext.Provider value={{order,changeOrder}}>
+            {children}
+        </userContext.Provider>
+    );
+  };
+  
+  export default UserProvider;

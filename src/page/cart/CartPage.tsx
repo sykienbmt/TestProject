@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { getListFromLocal ,ItemCart, setCartsToLocal} from '../../model/ItemCart'
+import {ItemCart} from '../../model/ItemCart'
 import './CartPage.css'
 import CheckoutForm from './CheckoutForm'
 import ItemCartRender from './ItemCartRender'
@@ -9,7 +9,7 @@ import { v4 as uuid } from 'uuid';
 import { Order } from '../../model/Order'
 import { cartController } from '../../controller/CartController'
 import { userController } from '../../controller/UserController'
-import { Order_product } from '../../model/Order_product'
+import { OrderProduct } from '../../model/OrderProduct'
 import { User } from '../../model/User'
 interface Props{
     setMessage:(mess:string)=>void,
@@ -40,9 +40,7 @@ export default function CartPage(props:Props) {
     useEffect(()=>{
         userController.getUser(state.order.id_user).then(res=>{
             cartController.getInfoCart(res.id_order).then(res1=>{
-                cartController.getTotalPrice(res.id_order).then(total=>{
-                    setState({...state,totalMoney:total,itemCarts:res1,order:res,cartCount:res1.length})
-                })
+                setState({...state,itemCarts:res1.list,order:res,cartCount:res1.list.length,totalMoney:res1.total})
             })
         })
         
@@ -50,24 +48,20 @@ export default function CartPage(props:Props) {
 
 
     const onChangeQuantity=(id:string,quantityChange:number,price:number,quantityBefore:number)=>{
-        const change:Order_product={id_order:state.order.id_order,id:id,quantity:quantityChange,price:price}
+        const change:OrderProduct={id_order:state.order.id_order,id:id,quantity:quantityChange,price:price}
         console.log(quantityChange,quantityBefore);
         cartController.updateQuantity(change).then(res=>{
-            cartController.getInfoCart(state.order.id_order).then(infoCart=>{
-                cartController.getTotalPrice(state.order.id_order).then(total=>{
-                    setState({...state,totalMoney:total,itemCarts:infoCart})
-                })
+            cartController.getInfoCart(state.order.id_order).then(res1=>{
+                setState({...state,itemCarts:res1.list,cartCount:res1.list.length,totalMoney:res1.total})
             })
         })
     }
 
     const onClickDeleteItemCarts=(id:string,quantity:number,price:number)=>{
-        const deleteItem:Order_product={id_order:state.order.id_order,id:id,quantity:quantity,price:price}
+        const deleteItem:OrderProduct={id_order:state.order.id_order,id:id,quantity:quantity,price:price}
         cartController.deleteFromCart(deleteItem).then(()=>{
-            cartController.getInfoCart(state.order.id_order).then(infoCart=>{
-                cartController.getTotalPrice(state.order.id_order).then(res1=>{
-                    setState({...state,itemCarts:infoCart,totalMoney:res1})
-                })
+            cartController.getInfoCart(state.order.id_order).then(res1=>{
+                setState({...state,itemCarts:res1.list,cartCount:res1.list.length,totalMoney:res1.total})
             })
         })
         

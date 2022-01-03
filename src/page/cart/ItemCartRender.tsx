@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { getListFromLocal, ItemCart}  from '../../model/ItemCart'
-import { Order_product } from '../../model/Order_product'
+import { ItemCart}  from '../../model/ItemCart'
+import { OrderProduct } from '../../model/OrderProduct'
 
 interface Props{
     itemCart:ItemCart,

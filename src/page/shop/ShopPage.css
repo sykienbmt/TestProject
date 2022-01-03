@@ -135,17 +135,21 @@
     margin: auto;
     text-align: center;
     margin-top: 50px;
+    display: flex;
+    /* flex-direction: center; */
     align-items: center;
+    justify-content: center;
 }
 
  .shop-pagination-container span{
     display: inline-block;
     border: 1px solid #393D72;
-    margin-left: 10px;
-    width: 40px;
-    height: 40px;
+    margin-left: 3px;
+    margin-right: 3px;
+    width: 35px;
+    height: 35px;
     text-align: center;
-    line-height: 40px;
+    line-height: 35px;
     cursor: pointer;
 }
 
@@ -154,7 +158,7 @@
 }
 
 
- .shop-pagination-container .pagination-class{
+.shop-pagination-container .pagination-class{
     border: 1px solid #E22B85;
     color: #E22B85;
     box-shadow: 1px 1px 1px #E22B85;
