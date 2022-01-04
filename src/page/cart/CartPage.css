@@ -5,7 +5,7 @@
 }
 
 #cart-page-container .cart-page{
-    width: 1000px;
+    width: 1200px;
     margin: auto;
     transition: 300ms;
 }
@@ -16,6 +16,11 @@
     line-height: 30px;
     padding: 3px;
     text-align: center;
+}
+
+#cart-page-container .show-list-container{
+    width: 1000px;
+    margin: auto;
 }
 
 #cart-page-container .show-list-container table{
@@ -163,12 +168,14 @@
 /*top bar*/
 
 #cart-page-container .order-process-container{
-    width: 500px;
+    width: 1200px;
     margin: auto;
-    padding: 15px 30px 15px 30px;
+    padding: 15px 80px 15px 80px;
 }
 
 #cart-page-container .order-process{
+    width: 500px;
+    margin: auto;
     display: flex;
     justify-content: space-between;
 }

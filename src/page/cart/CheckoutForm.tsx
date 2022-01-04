@@ -66,7 +66,6 @@ export default function CheckoutForm(props:Props) {
                         <input type="text"  className="checkout-input-name" onChange={e=>setState({...state,user:{...state.user,phone:e.target.value}})} value={state.user.phone}/>
                     </div>
                 </form>
-
             </div>
             <div className="carts-info-container">
                 <h2 className="item-checkout-title">Your order</h2>
