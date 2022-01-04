@@ -1,9 +1,8 @@
 import './ShopPage.css'
 import React, { useEffect, useState } from 'react'
 import { productController } from '../../controller/ProductController'
-import {getListFromLocal, ItemCart } from '../../model/ItemCart'
 import { Pagination } from '../../model/Pagination'
-import { Product } from '../../model/Product'
+import { ItemCart, Product } from '../../model/Product'
 import PaginationItem from '../shop/Pagination'
 import ShopItem from './ShopItem'
 import { Order } from '../../model/Order'
@@ -13,8 +12,7 @@ import { userController } from '../../controller/UserController'
 
 interface Props{
     setMessage:(mess:string)=>void,
-    order:Order,
-    // setTotalMoney:(total:number)=>void
+    order:Order
 }
 interface State{
     listShow:Product[],
@@ -34,8 +32,8 @@ export default function ProductsShow(props:Props) {
         inputSearch:"",
         currentPage:1,
         totalPage:[],
-        carts:getListFromLocal(),
-        countItemCart:getListFromLocal().length,
+        carts:[],
+        countItemCart:1,
         pagination:{page:1,filter:"",perPage:10,search:""},
         order:{...props.order}
     })
@@ -43,7 +41,7 @@ export default function ProductsShow(props:Props) {
     
     useEffect(() => {
         userController.getUser(state.order.id_user).then(order=>{
-            productController.query(state.pagination).then(res=>
+            productController.list(state.pagination).then(res=>
                 setState({...state,listShow:res.products,totalPage:res.totalPage,order:order}
             ))
         })
@@ -52,40 +50,20 @@ export default function ProductsShow(props:Props) {
     
 
     const onCLickSearch=()=>{
-        let pagination = state.pagination
+        let pagination = {...state.pagination}
         pagination.search=state.inputSearch
         pagination.perPage=10
         setState({...state,pagination:pagination})
 
-        productController.query(state.pagination).then(res=>
+
+        productController.list(state.pagination).then(res=>
             setState({...state,listShow:res.products,totalPage:res.totalPage,pagination:pagination,currentPage:1}
         ))
     }
     
     const onClickAddToCart = (id:string,price:number) => {
         const order_product:OrderProduct={id_order:state.order.id_order,id:id,quantity:1,price:price}
-        cartController.addToCart(order_product)
-
-
-        // const findIndex=state.carts.find(item => item.id === id);
-        // const list:ItemCart[] = state.carts
-        // let indexList = state.listShow.findIndex(item=>item.id===id)
-
-        // if (findIndex) {
-        //   let index =state.carts.findIndex(item => item.id === id)
-        //   state.carts[index].quantity=+list[index].quantity + 1
-        //   state.carts[index].id=id
-        // } else {
-        //   const newItemCart:ItemCart={
-        //       id:id,quantity:1,
-        //       name:state.listShow[indexList].name,
-        //       price:state.listShow[indexList].price,
-        //       image:state.listShow[indexList].image
-        //     }
-        //   list.push(newItemCart)
-        // }
-        // setState({...state,carts:list,countItemCart:list.length})
-        // setCartsToLocal(list)
+        cartController.add(order_product)
         props.setMessage("Add to cart Successfully")
     }
 
@@ -93,14 +71,13 @@ export default function ProductsShow(props:Props) {
         let pagination = state.pagination
         pagination.page=1
         pagination.filter=e
-        setState({...state,pagination:pagination})
-        productController.query(state.pagination).then(res=>
+        productController.list(state.pagination).then(res=>
             setState({...state,listShow:res.products,totalPage:res.totalPage,pagination:pagination,currentPage:1}
         ))
     }
 
     const setPage=(pagination:Pagination)=>{
-        productController.query(pagination).then(res=>
+        productController.list(pagination).then(res=>
             setState({...state,listShow:res.products,totalPage:res.totalPage,pagination:pagination,currentPage:Number(pagination.page)}
         ))
     }
@@ -111,9 +88,7 @@ export default function ProductsShow(props:Props) {
         if(pagination.page>state.totalPage.length){
             pagination.page=state.totalPage.length
         }
-        setState({...state,pagination:pagination})
-
-        productController.query(state.pagination).then(res=>
+        productController.list(state.pagination).then(res=>
             setState({...state,listShow:res.products,totalPage:res.totalPage,pagination:pagination,currentPage:Number(pagination.page)}
         ))
     }
@@ -124,9 +99,7 @@ export default function ProductsShow(props:Props) {
         if(pagination.page<1){
             pagination.page=1
         }
-        setState({...state,pagination:pagination})
-
-        productController.query(state.pagination).then(res=>
+        productController.list(state.pagination).then(res=>
             setState({...state,listShow:res.products,totalPage:res.totalPage,pagination:pagination,currentPage:Number(pagination.page)}
         ))
     }
@@ -134,7 +107,7 @@ export default function ProductsShow(props:Props) {
     const onChangeProductPerPage = (e:any)=>{
         let pagination = state.pagination
         pagination.perPage=e
-        productController.query(state.pagination).then(res=>
+        productController.list(state.pagination).then(res=>
             setState({...state,listShow:res.products,totalPage:res.totalPage,pagination:pagination,currentPage:1}
         ))
     }

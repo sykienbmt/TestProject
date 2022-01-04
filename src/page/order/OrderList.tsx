@@ -23,7 +23,7 @@ export default function OrderList(props:Props) {
     const [state,setState] = useState<State>({listOrder:[],currentPage:1,totalPage:[],orderPagination:{id_user:props.order.id_user,page:1,perPage:3},})
 
     useEffect(() => {
-        orderController.getListOrderWithPagination(state.orderPagination).then(res=>{
+        orderController.list(state.orderPagination).then(res=>{
             setState({...state,listOrder:res.listOrder,totalPage:res.totalPage})
         })
     }, [])
@@ -36,9 +36,7 @@ export default function OrderList(props:Props) {
         if(pagination.page>state.totalPage.length){
             pagination.page=state.totalPage.length
         }
-        setState({...state,orderPagination:pagination})
-
-        orderController.getListOrderWithPagination(state.orderPagination).then(res=>{
+        orderController.list(state.orderPagination).then(res=>{
             setState({...state,listOrder:res.listOrder,totalPage:res.totalPage,currentPage:Number(pagination.page)})
         })
     }
@@ -49,16 +47,13 @@ export default function OrderList(props:Props) {
         if(pagination.page<1){
             pagination.page=1
         }
-        setState({...state,orderPagination:pagination})
-
-        orderController.getListOrderWithPagination(state.orderPagination).then(res=>{
+        orderController.list(state.orderPagination).then(res=>{
             setState({...state,listOrder:res.listOrder,totalPage:res.totalPage,currentPage:Number(pagination.page)})
         })
     }
 
     const setPage=(orderPagination:OrderPagination)=>{
-
-        orderController.getListOrderWithPagination(orderPagination).then(res=>{
+        orderController.list(orderPagination).then(res=>{
             setState({...state,listOrder:res.listOrder,totalPage:res.totalPage,currentPage:Number(orderPagination.page)})
         })
     }

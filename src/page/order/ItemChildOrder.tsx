@@ -1,7 +1,6 @@
 import React from 'react'
-import { ItemCart } from '../../model/ItemCart'
+import { ItemCart } from '../../model/Product'
 import { OrderProduct, OrderProductShow } from '../../model/OrderProduct'
-import { Product } from '../../model/Product'
 
 interface Props{
     itemChild:OrderProductShow

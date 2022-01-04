@@ -21,16 +21,6 @@ export default function ItemOrderList(props:Props) {
         return total
     }
 
-    
-    // const convertDay = ()=>{
-    //     var d = new Date(Number(props.itemOrder));
-    //     var time =d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()+ " - ";
-    //     let day:string = `${d.getDate()}/${(d.getMonth()+1)}/${d.getFullYear()}` 
-    //     time =time + day
-    //     return time
-    // }
-
-
 
     return (
         <div className="order-history-item">

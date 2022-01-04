@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ItemCart}  from '../../model/ItemCart'
+import { ItemCart}  from '../../model/Product'
 import { OrderProduct } from '../../model/OrderProduct'
 
 interface Props{

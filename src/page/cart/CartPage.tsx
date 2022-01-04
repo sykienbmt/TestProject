@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import {ItemCart} from '../../model/ItemCart'
+import {ItemCart} from '../../model/Product'
 import './CartPage.css'
 import CheckoutForm from './CheckoutForm'
 import ItemCartRender from './ItemCartRender'
@@ -39,7 +39,7 @@ export default function CartPage(props:Props) {
 
     useEffect(()=>{
         userController.getUser(state.order.id_user).then(res=>{
-            cartController.getInfoCart(res.id_order).then(res1=>{
+            cartController.list(res.id_order).then(res1=>{
                 setState({...state,itemCarts:res1.list,order:res,cartCount:res1.list.length,totalMoney:res1.total})
             })
         })
@@ -49,9 +49,8 @@ export default function CartPage(props:Props) {
 
     const onChangeQuantity=(id:string,quantityChange:number,price:number,quantityBefore:number)=>{
         const change:OrderProduct={id_order:state.order.id_order,id:id,quantity:quantityChange,price:price}
-        console.log(quantityChange,quantityBefore);
-        cartController.updateQuantity(change).then(res=>{
-            cartController.getInfoCart(state.order.id_order).then(res1=>{
+        cartController.update(change).then(()=>{
+            cartController.list(state.order.id_order).then(res1=>{
                 setState({...state,itemCarts:res1.list,cartCount:res1.list.length,totalMoney:res1.total})
             })
         })
@@ -59,27 +58,16 @@ export default function CartPage(props:Props) {
 
     const onClickDeleteItemCarts=(id:string,quantity:number,price:number)=>{
         const deleteItem:OrderProduct={id_order:state.order.id_order,id:id,quantity:quantity,price:price}
-        cartController.deleteFromCart(deleteItem).then(()=>{
-            cartController.getInfoCart(state.order.id_order).then(res1=>{
-                setState({...state,itemCarts:res1.list,cartCount:res1.list.length,totalMoney:res1.total})
+        cartController.delete(deleteItem).then(()=>{
+            cartController.list(state.order.id_order).then(res=>{
+                setState({...state,itemCarts:res.list,cartCount:res.list.length,totalMoney:res.total})
             })
         })
-        
-        // let itemCartsFake=state.itemCarts.slice()
-        
-        // itemCartsFake=itemCartsFake.filter(item=>item.id!==id)
-        // if(itemCartsFake.length===0){
-        //     setCartsToLocal(itemCartsFake)
-        //     setState({...state,cartCount:0})
-        // }else{
-        //     setState({...state,itemCarts:itemCartsFake})
-        //     setCartsToLocal(itemCartsFake)
-        // }
         
         props.setMessage("Delete Successfully")
     }
     
-    //doi giao dien thong tin thanh toan
+    //change cart and payment
     const onclickShowCarts=()=>{
         setState({...state,isShowCheckOut:false})
     }

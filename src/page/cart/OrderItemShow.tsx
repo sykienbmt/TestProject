@@ -1,5 +1,5 @@
 import React from 'react'
-import { ItemCart } from '../../model/ItemCart'
+import { ItemCart } from '../../model/Product'
 
 interface Props{
     item:ItemCart

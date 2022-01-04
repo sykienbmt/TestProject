@@ -7,12 +7,6 @@ import { Product } from "../model/Product";
 
 class ProductController{
 
-    async list():Promise<Product[]>{
-        return axios.get('http://localhost:3333/products').then(res=>{
-            return res.data;
-        });
-    }
-
     async add(product:Product):Promise<Product[]>{
         return axios.put('http://localhost:3333/products/add',product).then(res=>{
             return res.data;
@@ -37,8 +31,8 @@ class ProductController{
         })
     }
 
-    async query(info:Pagination){
-        return axios.put('http://localhost:3333/pagi', info).then(res=>{
+    async list(info:Pagination){
+        return axios.put('http://localhost:3333/products', info).then(res=>{
             console.log(info);
             let products:Product[]=res.data.list
             let countAll = Math.ceil(res.data.count/ info.perPage)

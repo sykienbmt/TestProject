@@ -13,7 +13,6 @@ interface Props{
 export default function ShopItem(props:Props) {
 
     const onClickAddToCart=()=>{
-        // console.log(props.product.id);
         props.onClickAddToCart(props.product.id)
     }
 

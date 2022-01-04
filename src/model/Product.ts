@@ -5,8 +5,9 @@ export interface Product{
     image?:string;
 }
 
-
-
+export interface ItemCart extends Product{
+    quantity:number
+}
 
 
 

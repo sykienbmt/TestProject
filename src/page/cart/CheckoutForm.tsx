@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ItemCart } from '../../model/ItemCart'
+import { ItemCart } from '../../model/Product'
 import './Checkout.css'
 import OrderItemShow from './OrderItemShow'
 import {v4 as uuid} from 'uuid'
@@ -28,20 +28,14 @@ export default function CheckoutForm(props:Props) {
     })
     
     useEffect(() => {
-        userController.getUserInfo(state.order.id_user).then(res=>{
+        userController.get(state.order.id_user).then(res=>{
             setState({...state,user:res})
         })
     }, [])
     
     const onClickCompleteOrder = ()=>{
-        orderController.addOrder(props.order.id_user,props.order.id_order)
-
-        // setState({...state,orderTest:{...state.orderTest,buyerId:"Starr",orderId:uuid(),time:Date.now()}})
-        // console.log(state.orderTest);
-        // orderController.addOrder(state.orderTest)
-        // localStorage.removeItem('carts')
+        orderController.add(props.order.id_user,props.order.id_order)
         props.onClickSetCartCount()
-        // props.setMessage("Order Complete")
     }
 
     return (

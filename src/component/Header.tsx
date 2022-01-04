@@ -44,8 +44,8 @@ export default function Header() {
                         <i className="fas fa-search"></i>
                     </div>
                     <Link to="admin" className="menu-login">Admin</Link>
-                    <Link to="cart" className="menu-register">
-                        <i className="fas fa-shopping-bag"></i>
+                    <div className="menu-register">
+                        <Link to="cart" ><i className="fas fa-shopping-bag"></i></Link>
                         <div className="bgr-count">
                             <p className="count-item">
                                 {/* {props.countItemCart} */}
@@ -57,7 +57,7 @@ export default function Header() {
                                 <i className="fas fa-chevron-up"></i>
                             </div>
                         </Link>
-                    </Link>
+                    </div>
                 </nav>
             </div>
         </div>

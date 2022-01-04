@@ -36,7 +36,7 @@ export default function Products(props:Props) {
 
       
   useEffect(() => {
-    productController.query(state.pagination).then(res=>{
+    productController.list(state.pagination).then(res=>{
       setState({...state,products:res.products,totalPage:res.totalPage})
     })
   }, []);
@@ -47,8 +47,10 @@ export default function Products(props:Props) {
   }
     
   const onDelete = (idProduct:string) => {
-    productController.delete(idProduct).then(()=>productController.list().then(res=>{setState({...state,products:res})}))
-    
+    productController.delete(idProduct).then(()=>
+      productController.list(state.pagination).then(res=>
+        {setState({...state,products:res.products,totalPage:res.totalPage})}
+      ))
     props.setMessage("Delete Successfully")
   };
     
@@ -57,10 +59,16 @@ export default function Products(props:Props) {
     // let listProduct:Product[]=state.products;
     if(product.id===""){
         product.id=uuid();
-        productController.add(product).then(()=>productController.list().then(res=>{setState({...state,products:res})}))
+        productController.add(product).then(()=>
+          productController.list(state.pagination).then(res=>
+            {setState({...state,products:res.products,totalPage:res.totalPage})}
+          ))
         props.setMessage("Add Successfully")
     }else{
-        productController.update(product).then(()=>productController.list().then(res=>{setState({...state,products:res})}))
+        productController.update(product).then(()=>
+          productController.list(state.pagination).then(res=>
+            {setState({...state,products:res.products,totalPage:res.totalPage})}
+          ))
         props.setMessage("Update Successfully")
     }
     // setState({...state,products:listProduct})
@@ -70,7 +78,6 @@ export default function Products(props:Props) {
 
   //set product to show edit
   const onClickShowInfo =(productShow:Product)=>{
-    console.log(productShow);
     setState({...state,product:productShow,isEdit:true,showPopup:true})
   }
 
@@ -82,7 +89,7 @@ export default function Products(props:Props) {
   //Pagination  
 
   const setPage=(pagination:Pagination)=>{
-    productController.query(pagination).then(res=>
+    productController.list(pagination).then(res=>
         setState({...state,products:res.products,totalPage:res.totalPage,pagination:pagination,currentPage:Number(pagination.page)}
     ))
 }
@@ -93,9 +100,7 @@ const onClickNextPage=()=>{
     if(pagination.page>state.totalPage.length){
         pagination.page=state.totalPage.length
     }
-    setState({...state,pagination:pagination})
-
-    productController.query(state.pagination).then(res=>
+    productController.list(state.pagination).then(res=>
         setState({...state,products:res.products,totalPage:res.totalPage,pagination:pagination,currentPage:Number(pagination.page)}
     ))
 }
@@ -106,9 +111,7 @@ const onClickPrevPage=()=>{
     if(pagination.page<1){
         pagination.page=1
     }
-    setState({...state,pagination:pagination})
-
-    productController.query(state.pagination).then(res=>
+    productController.list(state.pagination).then(res=>
         setState({...state,products:res.products,totalPage:res.totalPage,pagination:pagination,currentPage:Number(pagination.page)}
     ))
 }

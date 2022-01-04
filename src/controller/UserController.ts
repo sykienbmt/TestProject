@@ -12,7 +12,7 @@ class UserController{
         })
     }
     
-    async getUserInfo(id_user:string):Promise<User>{
+    async get(id_user:string):Promise<User>{
         return axios.put('http://localhost:3333/user/getInfo',{id_user}).then(res=>{
             return res.data
         })
