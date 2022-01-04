@@ -3,12 +3,12 @@ import React, { useEffect, useState } from 'react'
 import { productController } from '../../controller/ProductController'
 import { Pagination } from '../../model/Pagination'
 import { ItemCart, Product } from '../../model/Product'
-import PaginationItem from '../shop/Pagination'
 import ShopItem from './ShopItem'
 import { Order } from '../../model/Order'
 import { cartController } from '../../controller/CartController'
 import { OrderProduct } from '../../model/OrderProduct'
 import { userController } from '../../controller/UserController'
+import PaginationItem from '../../component/Pagination'
 
 interface Props{
     setMessage:(mess:string)=>void,

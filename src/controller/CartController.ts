@@ -29,13 +29,6 @@ class CartController{
         })
     }
 
-    // async getTotal(id_order:string):Promise<number>{
-    //     return await axios.put('http://localhost:3333/cart/total',{id_order}).then(res=>{
-    //         console.log(res.data);
-    //         return res.data;
-    //     })
-    // }
-
     async delete(info:OrderProduct){
         return axios.put(`http://localhost:3333/cart/delete`,info) .then(res=>{
             return res.data;

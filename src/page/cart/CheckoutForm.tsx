@@ -34,7 +34,7 @@ export default function CheckoutForm(props:Props) {
     }, [])
     
     const onClickCompleteOrder = ()=>{
-        orderController.add(props.order.id_user,props.order.id_order)
+        orderController.update(props.order.id_user,props.order.id_order)
         props.onClickSetCartCount()
     }
 

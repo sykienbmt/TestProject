@@ -4,8 +4,8 @@ import { OrderPagination } from "../model/OrderPagination";
 
 class OrderController{
 
-    async add(id_user:string,id_order:string){
-        return axios.put('http://localhost:3333/order/add',{id_user,id_order})
+    async update(id_user:string,id_order:string){
+        return axios.put('http://localhost:3333/order/update',{id_user,id_order})
     }
     
     async list(orderPagination:OrderPagination){
