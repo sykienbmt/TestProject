@@ -14,6 +14,7 @@ import ProductDetail from './page/product/ProductDetail';
 import OrderList from './page/order/OrderList';
 import PopupMessage from './component/PopupMessage';
 import { Order } from './model/Order';
+import Login from './page/login/Login';
 
 
 interface State{
@@ -37,7 +38,6 @@ function App() {
   useEffect(()=>{
   },[])
   
-  
   return (
     <Router>
       <div>
@@ -45,6 +45,7 @@ function App() {
           <Header />
             <Routes>
               <Route path="/" element={<HomePage/>}/>
+              <Route path="login" element={<Login/>}/>
               <Route path="home" element={<HomePage/>}/>
               <Route path="admin" element={<Products setMessage={setMessage}/>} />
               <Route path="cart" element={<CartPage setMessage={setMessage} order={state.order} />}/>

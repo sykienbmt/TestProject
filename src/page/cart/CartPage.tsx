@@ -36,7 +36,8 @@ export default function CartPage(props:Props) {
         order:props.order,
         user:{id_user:props.order.id_user,name:"",address:"",phone:"",email:""}
     })
-
+    console.log(props.order);
+    
     useEffect(()=>{
         userController.getUser(state.order.id_user).then(res=>{
             cartController.list(res.id_order).then(res1=>{

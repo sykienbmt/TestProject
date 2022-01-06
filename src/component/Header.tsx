@@ -43,6 +43,7 @@ export default function Header() {
                         <input type="text" className="search-key" />
                         <i className="fas fa-search"></i>
                     </div>
+                    <Link to="login" className="menu-login">Login</Link>
                     <Link to="admin" className="menu-login">Admin</Link>
                     <div className="menu-register">
                         <Link to="cart" ><i className="fas fa-shopping-bag"></i></Link>

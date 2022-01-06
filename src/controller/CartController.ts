@@ -1,13 +1,13 @@
 import axios from "axios"
 import { ItemCart } from "../model/Product"
 import { OrderProduct } from "../model/OrderProduct";
-
+import { authAxios } from ".";
 
 
 class CartController{
 
     async list(id_order:string){
-        return axios.put('http://localhost:3333/cart',{id_order:id_order}).then(res=>{
+        return authAxios.put('http://localhost:3333/cart',{id_order:id_order}).then(res=>{
             let total=0
             let list:ItemCart[]= res.data
             list.forEach(item => {
@@ -18,13 +18,13 @@ class CartController{
     }
     
     async add(order_product:OrderProduct):Promise<number>{
-        return axios.put('http://localhost:3333/cart/add',order_product).then(res=>{
+        return authAxios.put('http://localhost:3333/cart/add',order_product).then(res=>{
             return res.data;
         })
     }
 
     async update(order_product:OrderProduct):Promise<OrderProduct[]>{
-        return axios.put('http://localhost:3333/cart/update',order_product).then(res=>{
+        return authAxios.put('http://localhost:3333/cart/update',order_product).then(res=>{
             return res.data;
         })
     }
