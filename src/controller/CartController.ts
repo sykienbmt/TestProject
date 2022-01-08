@@ -6,8 +6,8 @@ import { authAxios } from ".";
 
 class CartController{
 
-    async list(id_order:string){
-        return authAxios.put('http://localhost:3333/cart',{id_order:id_order}).then(res=>{
+    async list(id_user:string){
+        return authAxios.put('http://localhost:3333/cart',{id_user:id_user}).then(res=>{
             let total=0
             let list:ItemCart[]= res.data
             list.forEach(item => {
@@ -23,14 +23,14 @@ class CartController{
         })
     }
 
-    async update(order_product:OrderProduct):Promise<OrderProduct[]>{
+    async update(order_product:OrderProduct):Promise<ItemCart[]>{
         return authAxios.put('http://localhost:3333/cart/update',order_product).then(res=>{
             return res.data;
         })
     }
 
-    async delete(info:OrderProduct){
-        return axios.put(`http://localhost:3333/cart/delete`,info) .then(res=>{
+    async delete(id:string,id_order:string):Promise<ItemCart[]>{
+        return axios.put(`http://localhost:3333/cart/delete`,{id,id_order}) .then(res=>{
             return res.data;
         })
     }

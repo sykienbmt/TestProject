@@ -1,13 +1,27 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './Header.css'
 import { Link } from 'react-router-dom'
+import { User } from '../model/User'
+import { UserContext } from '../context/UserContext'
+import { userController } from '../controller/UserController'
 
+
+interface Props{
+    user:User
+}
 interface State{
     countItemCart:number
 }
 
-export default function Header() {
+export default function Header(props:Props) {
 
+    const userContext = useContext(UserContext)
+
+    const changeStatus=()=>{
+        if(userContext.status==="Logout"){
+            userContext.changeStatus("Login")
+        }
+    }
     return (
         <div id="header-container">
             <div id='header-bar'>
@@ -43,7 +57,7 @@ export default function Header() {
                         <input type="text" className="search-key" />
                         <i className="fas fa-search"></i>
                     </div>
-                    <Link to="login" className="menu-login">Login</Link>
+                    <Link to="login" className="menu-login"><p onClick={changeStatus}> {userContext.status}</p></Link>
                     <Link to="admin" className="menu-login">Admin</Link>
                     <div className="menu-register">
                         <Link to="cart" ><i className="fas fa-shopping-bag"></i></Link>
@@ -58,6 +72,10 @@ export default function Header() {
                                 <i className="fas fa-chevron-up"></i>
                             </div>
                         </Link>
+                    </div>
+                    <div className="user-info-show">
+                        {/* <p>{props.user.name}</p> */}
+                        <p>{userContext.user.name}</p>
                     </div>
                 </nav>
             </div>

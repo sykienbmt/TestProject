@@ -33,7 +33,6 @@ class ProductController{
 
     async list(info:Pagination){
         return axios.put('http://localhost:3333/products', info).then(res=>{
-            console.log(info);
             let products:Product[]=res.data.list
             let countAll = Math.ceil(res.data.count/ info.perPage)
             let totalPage:number[]=Array.from({length: countAll}, (_, i) => i + 1)

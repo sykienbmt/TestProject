@@ -1,6 +1,10 @@
 
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { OrderContext } from '../../context/OrderContext'
+import { UserContext } from '../../context/UserContext'
 import { userController } from '../../controller/UserController'
+import { User } from '../../model/User'
 import './Login.css'
 
 
@@ -8,24 +12,30 @@ interface State{
     email:string,
     pass:string
 }
+interface Props{
+    setUserInfo:(user:User)=>void,
+    user:User
+}
 
-
-
-
-
-
-export default function Login() {
+export default function Login(props:Props) {
 
     const [state,setState]= useState<State>({email:"",pass:""})
+    const {order,changeOrder}=useContext(OrderContext)
+    const userContext=useContext(UserContext)
+
+    let navigate = useNavigate();
 
     const onClickLogin=(e:any)=>{
+        console.log(userContext.status);
         e.preventDefault()
         userController.login(state.email,state.pass).then(res=>{
-            alert("done")
+            userController.getOrderInfo(res.id_user).then(res=>{
+                changeOrder(res)
+                navigate('/shop');
+            })
         })
-        
     }
-
+    
     return (
         <div id='login-page-container'>
             <div className="login-page">
@@ -39,10 +49,11 @@ export default function Login() {
                     <label htmlFor="">Pass</label>
                     <input type="password" className="login-pass" onChange={e=>setState({...state,pass:e.target.value})}/>
                     <div className='btn-login'>
-                        <button className="btn">Login</button>
+                        <button className="btn btn-login-1">Login</button>
                     </div>
                 </form>
             </div>
         </div>
     )
 }
+

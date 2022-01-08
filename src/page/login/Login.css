@@ -1,31 +1,64 @@
 #login-page-container{
-    width: 100%;
+    background: url("https://miro.medium.com/max/2400/1*nyU2IcNL3TVxZ_GPkkmt2g.png") center center no-repeat ;
+    padding-top: 160px;
+    padding-bottom: 160px;
+    z-index: -1;
+    background-attachment: fixed; 
+    background-size: cover;
+    display: grid;
+    align-items: center;
+    justify-content: center;
 }
-
 
 .login-page{
     width: 900px;
     height: 500px;
     margin: auto;
-    margin-top: 150px;
+    /* margin-top: 150px; */
     background-color: white;
-    box-shadow: 0px 0px 10px 4px #ddd;
-    border-radius: 10px;
-    padding: 20px;
+    /* box-shadow: 0px 0px 10px 4px #ddd; */
+    /* border-radius: 10px; */
+    /* padding: 20px; */
     display: flex;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .3);
+    border-radius: 15px;
+    position: relative;
+    z-index: 1;
+    background: inherit;
+    overflow: hidden;
 }
+
+.container:before {
+    content: "";
+    position: absolute;
+    background: inherit;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
+    filter: blur(10px);
+    margin: -20px;
+  }
+
 
 .login-page .login-image{
     width: 50%;
+    background: url("https://www.3gmobile.com.sg//image/cache/catalog/slider1-min-767x600.jpg") center center no-repeat;
+    border-radius: 15px 0 0 15px;
 }
 
 .login-page .login-form{
     width: 50%;
     padding: 20px;
-    padding-top: 80px;
+    padding-top: 50px;
+    padding-left: 40px;
+    padding-right: 40px;
 }
 .login-page h1{
     text-align: center;
+    margin-bottom: 50px;
 }
 
 .login-page .login-form input,
@@ -36,10 +69,12 @@
 }
 
 .login-page .login-form input{
-    padding: 10px 20px;
+    padding: 15px 20px;
     border-radius: 10px;
     outline: none;
     border: 1px solid #393D72;
+    font-weight: 700;
+    font-size: 14px;
 }
 
 .login-page .btn-login{
@@ -47,7 +82,7 @@
     text-align: center;
 }
 
-.login-page .btn-login .btn{
+.login-page .btn-login .btn-login-1{
     width: 80%;
     border-radius: 10px;
     height: 50px;

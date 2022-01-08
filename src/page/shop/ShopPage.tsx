@@ -1,5 +1,5 @@
 import './ShopPage.css'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { productController } from '../../controller/ProductController'
 import { Pagination } from '../../model/Pagination'
 import { ItemCart, Product } from '../../model/Product'
@@ -9,6 +9,9 @@ import { cartController } from '../../controller/CartController'
 import { OrderProduct } from '../../model/OrderProduct'
 import { userController } from '../../controller/UserController'
 import PaginationItem from '../../component/Pagination'
+import { User } from '../../model/User'
+import { OrderContext } from '../../context/OrderContext'
+import { UserContext } from '../../context/UserContext'
 
 interface Props{
     setMessage:(mess:string)=>void,
@@ -35,26 +38,29 @@ export default function ProductsShow(props:Props) {
         carts:[],
         countItemCart:1,
         pagination:{page:1,filter:"",perPage:10,search:""},
-        order:{...props.order}
+        order:props.order
     })
-    console.log(props.order);
-    
-    useEffect(() => {
-        userController.getUser(state.order.id_user).then(order=>{
-            productController.list(state.pagination).then(res=>
-                setState({...state,listShow:res.products,totalPage:res.totalPage,order:order}
-            ))
-        })
-    }, [])
-    console.log(state.order);
-    
 
+    const {order,changeOrder}= useContext(OrderContext)
+    const {changeUser}= useContext(UserContext)
+
+    useEffect(() => {
+        userController.getMe().then(res=>{
+            changeUser(res);
+        }).then(res=>{
+            productController.list(state.pagination).then(res=>{
+                setState({...state,listShow:res.products,totalPage:res.totalPage,order:order});
+                changeOrder(order)
+            })
+        })
+        
+    }, [])
+    
     const onCLickSearch=()=>{
         let pagination = {...state.pagination}
         pagination.search=state.inputSearch
         pagination.perPage=10
         setState({...state,pagination:pagination})
-
 
         productController.list(state.pagination).then(res=>
             setState({...state,listShow:res.products,totalPage:res.totalPage,pagination:pagination,currentPage:1}
@@ -139,7 +145,7 @@ export default function ProductsShow(props:Props) {
                     </select>
                 </div>
                 <div className="shop-list-container">
-                    {state.listShow.map((item)=><ShopItem key={item.id}  product={item} 
+                    {state.listShow && state.listShow.length>0 && state.listShow.map((item)=><ShopItem key={item.id}  product={item} 
                     onClickAddToCart={()=>onClickAddToCart(item.id,item.price)}
                     />)}
                 </div>

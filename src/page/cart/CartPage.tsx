@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {ItemCart} from '../../model/Product'
 import './CartPage.css'
@@ -11,6 +11,8 @@ import { cartController } from '../../controller/CartController'
 import { userController } from '../../controller/UserController'
 import { OrderProduct } from '../../model/OrderProduct'
 import { User } from '../../model/User'
+import { UserContext } from '../../context/UserContext'
+import { OrderContext } from '../../context/OrderContext'
 interface Props{
     setMessage:(mess:string)=>void,
     order:Order,
@@ -27,6 +29,7 @@ export interface State{
 
 
 export default function CartPage(props:Props) {
+    const userConText = useContext(UserContext)
     const [state,setState]=useState<State>({
         itemCarts:[],
         cartCount:0,
@@ -36,19 +39,21 @@ export default function CartPage(props:Props) {
         order:props.order,
         user:{id_user:props.order.id_user,name:"",address:"",phone:"",email:""}
     })
-    console.log(props.order);
+    const orderContext= useContext(OrderContext)
     
     useEffect(()=>{
-        userController.getUser(state.order.id_user).then(res=>{
-            cartController.list(res.id_order).then(res1=>{
-                setState({...state,itemCarts:res1.list,order:res,cartCount:res1.list.length,totalMoney:res1.total})
+        userController.getMe().then(res=>{
+            userConText.changeUser(res);
+        }).then(res=>{
+            cartController.list(userConText.user.id_user).then(res1=>{
+                setState({...state,itemCarts:res1.list,order:orderContext.order,cartCount:res1.list.length,totalMoney:res1.total})
             })
         })
         
     },[])
 
 
-    const onChangeQuantity=(id:string,quantityChange:number,price:number,quantityBefore:number)=>{
+    const onChangeQuantity=(id:string,quantityChange:number,price:number)=>{
         const change:OrderProduct={id_order:state.order.id_order,id:id,quantity:quantityChange,price:price}
         cartController.update(change).then(()=>{
             cartController.list(state.order.id_order).then(res1=>{
@@ -59,7 +64,7 @@ export default function CartPage(props:Props) {
 
     const onClickDeleteItemCarts=(id:string,quantity:number,price:number)=>{
         const deleteItem:OrderProduct={id_order:state.order.id_order,id:id,quantity:quantity,price:price}
-        cartController.delete(deleteItem).then(()=>{
+        cartController.delete(id,state.order.id_order).then(()=>{
             cartController.list(state.order.id_order).then(res=>{
                 setState({...state,itemCarts:res.list,cartCount:res.list.length,totalMoney:res.total})
             })

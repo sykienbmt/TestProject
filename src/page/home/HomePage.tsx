@@ -1,12 +1,27 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import Footer from '../../component/Footer'
+import { OrderContext } from '../../context/OrderContext'
+import { userController } from '../../controller/UserController'
+import { User } from '../../model/User'
 import CommentItem from './CommentItem'
 import './HomePage.css'
 import ItemTop from './ItemTop'
 import Offer from './Offer'
 import Slider from './Slider'
 
-export default function HomePage() {
+interface Props{
+    setUserInfo:(user:User)=>void
+}
+
+export default function HomePage(props:Props) {
+
+    // if(localStorage.getItem('accessToken')){
+    //     userController.getMe().then(res=>{
+    //         props.setUserInfo(res)
+    //     })
+    // }
+    
+
     return (
         <>
         <div id="home-container">
