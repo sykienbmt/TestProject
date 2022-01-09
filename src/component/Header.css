@@ -153,20 +153,35 @@
     height: 20px;
     position: absolute;
     top:-5px;
-    right:5px;
+    right:-13px;
     border-radius: 5px;
 }
+
 #header-container .menu-register .bgr-count .count-item{
     color: white;
     font-size: 12px;
-    line-height: 20px;
+    line-height: 20px;  
+    font-weight: 600;
 }
 
-#header-container .menu-register:hover .show-customer-order{
+
+#header-container .user-info-show{
+    min-width: 60px;
+    position: relative;
+}
+
+#header-container .user-info-show h4{
+    text-align: right;
+    cursor: pointer;
+}
+
+
+#header-container .user-info-show:hover .show-customer-order{
     display: block;
 }
 
-#header-container .menu-register .show-customer-order{
+
+#header-container .user-info-show .show-customer-order{
     background-color: #cf1673;
     border: 2px solid white;
     box-shadow: 1px 1px 10px rgb(179, 177, 177);
@@ -175,14 +190,14 @@
     width: 120px;
     text-align: center;
     position: absolute;
-    top:32px ;
-    right:15px;
+    top:25px;
+    right:0;
     display: none;
 }
 
-#header-container .menu-register .show-customer-order .fa-chevron-up{
+#header-container .user-info-show .show-customer-order .fa-chevron-up{
     position: absolute;
     top:-10px;
     color: #E22B85;
-    right: 5px;
+    right: 15px;
 }

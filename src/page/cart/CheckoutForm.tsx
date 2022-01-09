@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ItemCart } from '../../model/Product'
 import './Checkout.css'
 import OrderItemShow from './OrderItemShow'
@@ -7,6 +7,9 @@ import { orderController } from '../../controller/OrderController'
 import { Order } from '../../model/Order'
 import { User } from '../../model/User'
 import { userController } from '../../controller/UserController'
+import { UserContext } from '../../context/UserContext'
+import { OrderContext } from '../../context/OrderContext'
+import { CartConText } from '../../context/CartContext'
 
 interface Props{
     itemCarts: ItemCart[],
@@ -27,6 +30,8 @@ export default function CheckoutForm(props:Props) {
         user:{id_user:props.order.id_user,name:"",address:"",phone:"",email:""}
     })
     
+    const userContext= useContext(UserContext)
+    const cartContext = useContext(CartConText)
     useEffect(() => {
         userController.get(state.order.id_user).then(res=>{
             setState({...state,user:res})
@@ -34,7 +39,7 @@ export default function CheckoutForm(props:Props) {
     }, [])
     
     const onClickCompleteOrder = ()=>{
-        orderController.update(props.order.id_user,props.order.id_order)
+        orderController.update(userContext.user.id_user,cartContext.order.id_order)
         props.onClickSetCartCount()
     }
 

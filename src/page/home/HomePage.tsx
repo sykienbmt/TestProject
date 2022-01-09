@@ -1,6 +1,8 @@
 import React, { useContext, useEffect } from 'react'
 import Footer from '../../component/Footer'
+import { CartConText } from '../../context/CartContext'
 import { OrderContext } from '../../context/OrderContext'
+import { UserContext } from '../../context/UserContext'
 import { userController } from '../../controller/UserController'
 import { User } from '../../model/User'
 import CommentItem from './CommentItem'
@@ -20,7 +22,15 @@ export default function HomePage(props:Props) {
     //         props.setUserInfo(res)
     //     })
     // }
-    
+
+    const userConText = useContext(UserContext)
+    const cartContext = useContext(CartConText)
+    useEffect(()=>{
+        userController.getMe().then(res=>{
+            userConText.changeUser(res);
+            cartContext.getInfoCart(res.id_user) 
+        })
+    },[])
 
     return (
         <>

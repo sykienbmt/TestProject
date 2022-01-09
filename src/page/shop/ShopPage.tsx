@@ -12,6 +12,7 @@ import PaginationItem from '../../component/Pagination'
 import { User } from '../../model/User'
 import { OrderContext } from '../../context/OrderContext'
 import { UserContext } from '../../context/UserContext'
+import { CartConText } from '../../context/CartContext'
 
 interface Props{
     setMessage:(mess:string)=>void,
@@ -42,18 +43,19 @@ export default function ProductsShow(props:Props) {
     })
 
     const {order,changeOrder}= useContext(OrderContext)
-    const {changeUser}= useContext(UserContext)
+    const userContext= useContext(UserContext)
+    const cartContext = useContext(CartConText)
 
     useEffect(() => {
         userController.getMe().then(res=>{
-            changeUser(res);
-        }).then(res=>{
+            userContext.changeUser(res);
+            cartContext.getInfoCart(userContext.user.id_user)
+        }).then(()=>{
             productController.list(state.pagination).then(res=>{
                 setState({...state,listShow:res.products,totalPage:res.totalPage,order:order});
                 changeOrder(order)
             })
         })
-        
     }, [])
     
     const onCLickSearch=()=>{
@@ -68,8 +70,9 @@ export default function ProductsShow(props:Props) {
     }
     
     const onClickAddToCart = (id:string,price:number) => {
-        const order_product:OrderProduct={id_order:state.order.id_order,id:id,quantity:1,price:price}
-        cartController.add(order_product)
+        // const order_product:OrderProduct={id_order:state.order.id_order,id:id,quantity:1,price:price}
+        // cartController.add(order_product)
+        cartContext.onClickAddToCart(id,price)
         props.setMessage("Add to cart Successfully")
     }
 

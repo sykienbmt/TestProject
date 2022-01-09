@@ -1,27 +1,40 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './Header.css'
+import './MiniCart.css'
 import { Link } from 'react-router-dom'
 import { User } from '../model/User'
 import { UserContext } from '../context/UserContext'
 import { userController } from '../controller/UserController'
+import { CartConText } from '../context/CartContext'
+import MiniCart from './MiniCart'
+import { ItemCart } from '../model/Product'
 
 
 interface Props{
     user:User
 }
 interface State{
-    countItemCart:number
+    itemCarts:ItemCart[]
 }
 
 export default function Header(props:Props) {
 
     const userContext = useContext(UserContext)
+    const cartContext = useContext(CartConText)
+    const [state,setState]=useState<State>({itemCarts:cartContext.itemCarts})
 
     const changeStatus=()=>{
         if(userContext.status==="Logout"){
             userContext.changeStatus("Login")
         }
     }
+
+    useEffect(()=>{
+        setState({...state,itemCarts:cartContext.itemCarts})
+    },[cartContext.itemCarts])
+    
+    console.log(state.itemCarts);
+    
     return (
         <div id="header-container">
             <div id='header-bar'>
@@ -59,23 +72,30 @@ export default function Header(props:Props) {
                     </div>
                     <Link to="login" className="menu-login"><p onClick={changeStatus}> {userContext.status}</p></Link>
                     <Link to="admin" className="menu-login">Admin</Link>
+                    <div className="user-info-show">
+                        {/* <p>{props.user.name}</p> */}
+                        <h4>{userContext.user.name}</h4>
+                        <Link to="order" className="show-customer-order">
+                            <p>Your Order</p>
+                            <i className="fas fa-chevron-up"></i>
+                        </Link>
+                        
+                    </div>
                     <div className="menu-register">
                         <Link to="cart" ><i className="fas fa-shopping-bag"></i></Link>
                         <div className="bgr-count">
                             <p className="count-item">
-                                {/* {props.countItemCart} */}
+                                {cartContext.cartCount}
                                 </p>
                         </div>
-                        <Link to="order">
-                            <div className="show-customer-order">
-                                Your Order
-                                <i className="fas fa-chevron-up"></i>
-                            </div>
-                        </Link>
-                    </div>
-                    <div className="user-info-show">
-                        {/* <p>{props.user.name}</p> */}
-                        <p>{userContext.user.name}</p>
+
+                        <div className="cart-mini-show">
+                            {state.itemCarts.map((item,index)=>{
+                                return(
+                                    <MiniCart key={index} item={item}/>
+                                )
+                            })}
+                        </div>
                     </div>
                 </nav>
             </div>

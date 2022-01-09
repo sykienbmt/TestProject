@@ -21,6 +21,7 @@ import { userController } from './controller/UserController';
 import { cartController } from './controller/CartController';
 import OrderContextProvider, { OrderContext } from './context/OrderContext';
 import UserContextProvider, { UserContext } from './context/UserContext';
+import CartContextProvider from './context/CartContext';
 
 interface State{
   isShowMessage:Boolean,
@@ -52,36 +53,33 @@ function App() {
   }, [])
 
 
-  window.onload = () => {
-    if(localStorage.getItem('accessToken')){
-      userController.getMe().then(res=>{
-        userContext.changeUser(res)
-      })
-      // const timeExpired=isTokenExpired(localStorage.getItem('accessToken')|| "")
-      // if(timeExpired>0){
-      //   setTimeout(()=>{
-      //     localStorage.removeItem('accessToken')
-      //     alert('Your login is expired pls login again')
-      //     window.location.href='/login'
-      // },timeExpired*1000)
-      // }
-    }
-  }
+  // window.onload = () => {
+  //   if(localStorage.getItem('accessToken')){
+  //     userController.getMe().then(res=>{
+  //       userContext.changeUser(res)
+  //     })
+  //     // const timeExpired=isTokenExpired(localStorage.getItem('accessToken')|| "")
+  //     // if(timeExpired>0){
+  //     //   setTimeout(()=>{
+  //     //     localStorage.removeItem('accessToken')
+  //     //     alert('Your login is expired pls login again')
+  //     //     window.location.href='/login'
+  //     // },timeExpired*1000)
+  //     // }
+  //   }
+  // }
 
   const  isTokenExpired=(token:string)=> {
     const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
     return expiry-(Math.floor((new Date).getTime() / 1000));
   }
 
-
-  
-
-
   return (
     <Router>
       <div>
-          <OrderContextProvider>
           <UserContextProvider>
+          <OrderContextProvider>
+          <CartContextProvider>
             {state.isShowMessage? <PopupMessage message={state.message}/> : ""}
             <Header user={state.user}/>
             <Routes>
@@ -94,8 +92,9 @@ function App() {
               <Route path="product/:id" element={<ProductDetail/>}  />
               <Route path="order" element={<OrderList order={state.order}/>} />
             </Routes>
-          </UserContextProvider>
+          </CartContextProvider>
           </OrderContextProvider>
+          </UserContextProvider>
       </div>
     </Router>
   );

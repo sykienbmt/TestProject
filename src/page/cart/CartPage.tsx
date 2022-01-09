@@ -13,6 +13,7 @@ import { OrderProduct } from '../../model/OrderProduct'
 import { User } from '../../model/User'
 import { UserContext } from '../../context/UserContext'
 import { OrderContext } from '../../context/OrderContext'
+import { CartConText } from '../../context/CartContext'
 interface Props{
     setMessage:(mess:string)=>void,
     order:Order,
@@ -30,48 +31,49 @@ export interface State{
 
 export default function CartPage(props:Props) {
     const userConText = useContext(UserContext)
+    const cartContext = useContext(CartConText)
+
     const [state,setState]=useState<State>({
-        itemCarts:[],
-        cartCount:0,
-        totalMoney:0,
+        itemCarts:cartContext.itemCarts,
+        cartCount:cartContext.cartCount,
+        totalMoney:cartContext.totalMoney,
         value:0,
         isShowCheckOut:false,
         order:props.order,
         user:{id_user:props.order.id_user,name:"",address:"",phone:"",email:""}
     })
-    const orderContext= useContext(OrderContext)
+
     
     useEffect(()=>{
         userController.getMe().then(res=>{
             userConText.changeUser(res);
-        }).then(res=>{
-            cartController.list(userConText.user.id_user).then(res1=>{
-                setState({...state,itemCarts:res1.list,order:orderContext.order,cartCount:res1.list.length,totalMoney:res1.total})
-            })
+            cartContext.getInfoCart(res.id_user) 
         })
-        
     },[])
 
+    useEffect(()=>{
+        setState({...state,itemCarts:cartContext.itemCarts,cartCount:cartContext.cartCount,
+            totalMoney:cartContext.totalMoney})
+    },[cartContext.itemCarts])
+    
 
-    const onChangeQuantity=(id:string,quantityChange:number,price:number)=>{
-        const change:OrderProduct={id_order:state.order.id_order,id:id,quantity:quantityChange,price:price}
-        cartController.update(change).then(()=>{
-            cartController.list(state.order.id_order).then(res1=>{
-                setState({...state,itemCarts:res1.list,cartCount:res1.list.length,totalMoney:res1.total})
-            })
-        })
-    }
+    // const onChangeQuantity=(id:string,quantityChange:number,price:number)=>{
+    //     const change:OrderProduct={id_order:state.order.id_order,id:id,quantity:quantityChange,price:price}
+    //     cartController.update(change).then(()=>{
+    //         cartController.list().then(res1=>{
+    //             console.log(res1);
+    //             setState({...state,itemCarts:res1.list,cartCount:res1.list.length,totalMoney:res1.total})
+    //             cartContext.setCartCount(res1.list.length)
+    //         })
+    //     })
+    // }
 
-    const onClickDeleteItemCarts=(id:string,quantity:number,price:number)=>{
-        const deleteItem:OrderProduct={id_order:state.order.id_order,id:id,quantity:quantity,price:price}
-        cartController.delete(id,state.order.id_order).then(()=>{
-            cartController.list(state.order.id_order).then(res=>{
-                setState({...state,itemCarts:res.list,cartCount:res.list.length,totalMoney:res.total})
-            })
-        })
+    // const onClickDeleteItemCarts=(id:string)=>{
+    //     cartContext.onClickDeleteItemCarts(id)
+    //     console.log(state.itemCarts);
         
-        props.setMessage("Delete Successfully")
-    }
+    //     props.setMessage("Delete Successfully")
+    // }
     
     //change cart and payment
     const onclickShowCarts=()=>{
@@ -95,10 +97,10 @@ export default function CartPage(props:Props) {
                                     <th><p>Subtotal</p></th>
                                 </tr>
                                 
-                                {state.itemCarts.map(item=><ItemCartRender key={uuid()}
+                                {state.itemCarts &&state.itemCarts.length>0 && state.itemCarts.map(item=><ItemCartRender key={uuid()}
                                     itemCart={item} 
-                                    onChangeQuantity={onChangeQuantity} 
-                                    onClickDeleteItemCarts={onClickDeleteItemCarts}
+                                    // onChangeQuantity={onChangeQuantity} 
+                                    // onClickDeleteItemCarts={onClickDeleteItemCarts}
                                 />)}
                                 
                                 <tr className="table-row">
@@ -123,9 +125,8 @@ export default function CartPage(props:Props) {
 
     return (
         <>
-            
             <div id="cart-page-container">
-                {state.cartCount>0 ?
+                {cartContext.cartCount>0 ?
                     <div className="order-process-container fade">
                         <div className="order-process">
                             <div className="cart-page-show-info " onClick={()=>setState({...state,isShowCheckOut:false})}>
@@ -140,7 +141,7 @@ export default function CartPage(props:Props) {
                     </div> 
                 : ""}
 
-                {state.isShowCheckOut===true&&state.cartCount>0 ?
+                {state.isShowCheckOut===true && state.cartCount>0 && state.itemCarts ?
                     <CheckoutForm
                         itemCarts={state.itemCarts}
                         totalMoney={state.totalMoney}

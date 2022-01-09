@@ -1,0 +1,40 @@
+#header-container .menu-register{
+    position: relative;
+    cursor: pointer;
+}
+
+#header-container .menu-register:hover .cart-mini-show{
+    display: block;
+}
+
+#header-container .menu-register .cart-mini-show{
+    position: absolute;
+    width: 350px;
+    background: white;
+    border: 2px solid #E35186;
+    box-shadow: 0px 0px 10px 3px #393D72;
+    border-radius: 10px;
+    padding: 10px;
+    top: 35px;
+    right: 0;
+    display: none;
+    z-index: 9;
+}
+
+
+#header-container .menu-register img{
+    width: 30px;
+    height: 30px;
+}
+
+#header-container .menu-register .cart-mini-render{
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: 1fr 2fr 1fr;
+    align-items: center;
+}
+
+#header-container .menu-register .cart-mini-render .cart-mini-quantity{
+    text-align: right;
+}
+

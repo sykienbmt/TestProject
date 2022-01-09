@@ -28,8 +28,8 @@ export default function Login(props:Props) {
     const onClickLogin=(e:any)=>{
         console.log(userContext.status);
         e.preventDefault()
-        userController.login(state.email,state.pass).then(res=>{
-            userController.getOrderInfo(res.id_user).then(res=>{
+        userController.login(state.email,state.pass).then(()=>{
+            userController.getOrderInfo().then(res=>{
                 changeOrder(res)
                 navigate('/shop');
             })

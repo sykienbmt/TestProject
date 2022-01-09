@@ -23,10 +23,9 @@ class UserController{
         })
     }
 
-    async getOrderInfo(id_user:string){
-        let info={id_user:id_user}
-        return authAxios.put('http://localhost:3333/user',info).then(res=>{
-            return res.data.order as Order
+    async getOrderInfo(){
+        return authAxios.put('http://localhost:3333/user').then(res=>{
+            return res.data as Order
         })
     }
     

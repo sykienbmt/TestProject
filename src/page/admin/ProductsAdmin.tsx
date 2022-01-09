@@ -1,5 +1,5 @@
 import './ProductsAdmin.css'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {ProductItem} from './ProductItemAdmin'
 import { Product } from '../../model/Product'
 import Form from './FormAddAdmin'
@@ -7,6 +7,9 @@ import { v4 as uuid } from 'uuid';
 import { productController } from '../../controller/ProductController'
 import { Pagination } from '../../model/Pagination'
 import PaginationItem from '../../component/Pagination'
+import { UserContext } from '../../context/UserContext'
+import { CartConText } from '../../context/CartContext'
+import { userController } from '../../controller/UserController'
 
 
 interface Props{
@@ -40,7 +43,15 @@ export default function Products(props:Props) {
       setState({...state,products:res.products,totalPage:res.totalPage})
     })
   }, []);
-    
+
+  const userConText = useContext(UserContext)
+  const cartContext = useContext(CartConText)
+  useEffect(()=>{
+      userController.getMe().then(res=>{
+          userConText.changeUser(res);
+          cartContext.getInfoCart(res.id_user)
+      })
+  },[])
   //is
   const onEditForm =(isEdit:Boolean)=>{
     setState({...state,isEdit:isEdit})
